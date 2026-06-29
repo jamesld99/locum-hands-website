@@ -38,10 +38,6 @@ export function organizationSchema() {
     },
     address: {
       "@type": "PostalAddress",
-      streetAddress: siteConfig.address.streetAddress,
-      addressLocality: siteConfig.address.addressLocality,
-      addressRegion: siteConfig.address.addressRegion,
-      postalCode: siteConfig.address.postalCode,
       addressCountry: siteConfig.address.addressCountry,
     },
     sameAs: [siteConfig.social.linkedin, siteConfig.social.facebook],
@@ -62,16 +58,7 @@ export function localBusinessSchema() {
     description: siteConfig.description,
     address: {
       "@type": "PostalAddress",
-      streetAddress: siteConfig.address.streetAddress,
-      addressLocality: siteConfig.address.addressLocality,
-      addressRegion: siteConfig.address.addressRegion,
-      postalCode: siteConfig.address.postalCode,
       addressCountry: siteConfig.address.addressCountry,
-    },
-    geo: {
-      "@type": "GeoCoordinates",
-      latitude: siteConfig.geo.latitude,
-      longitude: siteConfig.geo.longitude,
     },
     areaServed: {
       "@type": "Country",

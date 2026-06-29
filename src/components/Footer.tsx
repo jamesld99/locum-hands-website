@@ -35,8 +35,7 @@ export function Footer() {
                 {siteConfig.email}
               </a>
               <span className="mt-2 block text-navy-300">
-                {siteConfig.address.streetAddress}, {siteConfig.address.addressLocality},{" "}
-                {siteConfig.address.postalCode}
+                Proudly serving dental practices &amp; professionals across the UK
               </span>
             </address>
           </div>

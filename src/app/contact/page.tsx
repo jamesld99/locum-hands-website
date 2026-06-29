@@ -65,13 +65,9 @@ export default function ContactPage() {
                     {siteConfig.email}
                   </a>
                 </ContactItem>
-                <ContactItem icon={MapPinIcon} title="Registered address">
+                <ContactItem icon={MapPinIcon} title="Coverage">
                   <span className="not-italic">
-                    {siteConfig.address.streetAddress}
-                    <br />
-                    {siteConfig.address.addressLocality}, {siteConfig.address.postalCode}
-                    <br />
-                    United Kingdom
+                    UK-wide — England, Scotland, Wales &amp; Northern Ireland
                   </span>
                 </ContactItem>
                 <ContactItem icon={ClockIcon} title="Opening hours">

@@ -15,19 +15,11 @@ export const siteConfig = {
   email: "hello@locumhands.co.uk",
   phone: "+44 7949 282054",
   phoneDisplay: "07949 282054",
-  // Postal/registered address is used for LocalBusiness schema.
+  // Locum Hands is a UK-wide service business with no public office address.
   address: {
-    streetAddress: "71-75 Shelton Street",
-    addressLocality: "London",
-    addressRegion: "Greater London",
-    postalCode: "WC2H 9JQ",
     addressCountry: "GB",
   },
   areaServed: "United Kingdom",
-  geo: {
-    latitude: 51.5142,
-    longitude: -0.1252,
-  },
   openingHours: "Mo-Fr 08:00-18:00",
   foundingYear: "2024",
   founder: {
