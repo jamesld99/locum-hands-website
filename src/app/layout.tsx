@@ -73,7 +73,12 @@ export const metadata: Metadata = {
     },
   },
   icons: {
-    icon: "/favicon.ico",
+    icon: [
+      { url: "/images/locum-hands-logo.png", sizes: "512x512", type: "image/png" },
+    ],
+    apple: [
+      { url: "/images/locum-hands-logo.png", sizes: "512x512", type: "image/png" },
+    ],
   },
   category: "Healthcare",
 };

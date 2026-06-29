@@ -14,7 +14,12 @@ export function organizationSchema() {
     name: siteConfig.legalName,
     alternateName: siteConfig.shortName,
     url: siteConfig.url,
-    logo: `${siteConfig.url}/images/locum-hands-logo.png`,
+    logo: {
+      "@type": "ImageObject",
+      url: `${siteConfig.url}/images/locum-hands-logo.png`,
+      width: 1024,
+      height: 1024,
+    },
     description: siteConfig.description,
     email: siteConfig.email,
     telephone: siteConfig.phone,
