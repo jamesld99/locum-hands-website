@@ -9,8 +9,8 @@ export const siteConfig = {
   legalName: "Locum Hands Limited",
   description:
     "Locum Hands Ltd is a UK-wide dental locum agency connecting dental nurses, hygienists and dentists with dental practices that need reliable temporary staff.",
-  // Update to the live domain before deploying to Vercel.
-  url: "https://www.locumhands.co.uk",
+  // Live production domain (apex). www redirects to this in Vercel.
+  url: "https://locumhands.co.uk",
   locale: "en_GB",
   email: "hello@locumhands.co.uk",
   phone: "+44 7949 282054",
