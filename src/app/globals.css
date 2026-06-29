@@ -1,26 +1,85 @@
 @import "tailwindcss";
 
+@theme {
+  /* Brand palette derived from the Locum Hands logo */
+  --color-navy-50: #eef4f9;
+  --color-navy-100: #d4e2ee;
+  --color-navy-200: #a9c5dd;
+  --color-navy-300: #7aa4c8;
+  --color-navy-400: #487fad;
+  --color-navy-500: #2c6291;
+  --color-navy-600: #1f4d76;
+  --color-navy-700: #173c5e;
+  --color-navy-800: #122f49;
+  --color-navy-900: #0d2236;
+
+  --color-teal-50: #eafafb;
+  --color-teal-100: #cdf1f4;
+  --color-teal-200: #a3e4e9;
+  --color-teal-300: #6fd2da;
+  --color-teal-400: #45bdc7;
+  --color-teal-500: #2ba1ac;
+  --color-teal-600: #228290;
+  --color-teal-700: #1f6873;
+  --color-teal-800: #1f535d;
+  --color-teal-900: #1d454e;
+
+  --color-brand: #173c5e;
+  --color-brand-accent: #45bdc7;
+
+  --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+
+  --color-background: #ffffff;
+  --color-foreground: #0d2236;
+}
+
 :root {
   --background: #ffffff;
-  --foreground: #171717;
+  --foreground: #0d2236;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+html {
+  scroll-behavior: smooth;
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+/* Respect reduced motion preferences for accessibility */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+  }
+}
+
+/* Visible focus outline for keyboard users (WCAG 2.4.7) */
+:focus-visible {
+  outline: 3px solid var(--color-teal-400);
+  outline-offset: 2px;
+  border-radius: 2px;
+}
+
+/* Utility for screen-reader-only content + skip link */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
 }

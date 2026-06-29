@@ -1,36 +1,75 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Locum Hands Ltd — Website
 
-## Getting Started
+A professional, modern marketing website for **Locum Hands Ltd**, a UK-wide dental
+locum agency connecting dental nurses, hygienists, therapists and dentists with
+dental practices that need reliable temporary staff.
 
-First, run the development server:
+Built with **Next.js (App Router) + TypeScript + Tailwind CSS v4**, optimised for
+SEO, accessibility (WCAG) and fast loads, and ready to deploy to **Vercel**.
+
+## Features
+
+- **Pages**: Home, For Professionals, For Practices, About, Blog (with post,
+  category and tag pages), Contact and FAQs.
+- **Forms** (validated with [Zod](https://zod.dev) on client *and* server):
+  - Professional registration (name, email, phone, profession, experience,
+    location preferences, availability).
+  - Practice booking enquiry.
+  - Contact enquiry.
+  - Honeypot + in-memory rate limiting for spam/abuse protection.
+- **SEO**: dynamic metadata, Open Graph/Twitter cards, `sitemap.xml`, `robots.txt`,
+  canonical URLs, semantic HTML and a proper heading hierarchy.
+- **Structured data (JSON-LD)**: `Organization`, `LocalBusiness` /
+  `EmploymentAgency`, `WebSite`, `BreadcrumbList`, `FAQPage` and `BlogPosting`,
+  all UK-targeted.
+- **Blog taxonomy**: categories and tags with their own crawlable pages and
+  internal linking, targeting UK dental locum search terms.
+- **Accessibility**: skip link, visible focus styles, ARIA-friendly forms,
+  reduced-motion support and keyboard-navigable menus.
+
+## Getting started
 
 ```bash
+npm install
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open [http://localhost:3000](http://localhost:3000).
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+Other scripts:
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+```bash
+npm run build   # production build
+npm start       # run the production build
+npm run lint    # eslint
+```
 
-## Learn More
+## Configuration
 
-To learn more about Next.js, take a look at the following resources:
+All site-wide details live in [`src/lib/site.ts`](src/lib/site.ts) — update the
+production `url`, phone, email and address there and they flow through metadata,
+schema, the header and the footer.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Form submissions storage
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+Submissions are validated server-side and appended as newline-delimited JSON to
+the `data/` directory (owner-only file permissions). These files contain personal
+data and are **git-ignored**.
 
-## Deploy on Vercel
+> **Production note:** On Vercel the app filesystem is read-only. For production,
+> set `SUBMISSIONS_DIR` to a writable path, or replace the body of
+> `saveSubmission` in [`src/lib/storage.ts`](src/lib/storage.ts) with a managed
+> datastore (e.g. Vercel Postgres / Supabase) and an email notifier (e.g. Resend).
+> The public API stays the same, so the rest of the app needs no changes.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## Content
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- Blog posts: [`src/lib/blog.ts`](src/lib/blog.ts)
+- FAQs: [`src/lib/faqs.ts`](src/lib/faqs.ts)
+
+## Deploying to Vercel
+
+1. Push this repository to GitHub.
+2. Import it into Vercel.
+3. Set the production domain and update `siteConfig.url`.
+4. (Recommended) Configure a datastore for form submissions as noted above.
