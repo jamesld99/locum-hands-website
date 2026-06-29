@@ -44,11 +44,7 @@ export function organizationSchema() {
       postalCode: siteConfig.address.postalCode,
       addressCountry: siteConfig.address.addressCountry,
     },
-    sameAs: [
-      siteConfig.social.linkedin,
-      siteConfig.social.facebook,
-      siteConfig.social.instagram,
-    ],
+    sameAs: [siteConfig.social.linkedin, siteConfig.social.facebook],
   };
 }
 
@@ -87,11 +83,7 @@ export function localBusinessSchema() {
       opens: "08:00",
       closes: "18:00",
     },
-    sameAs: [
-      siteConfig.social.linkedin,
-      siteConfig.social.facebook,
-      siteConfig.social.instagram,
-    ],
+    sameAs: [siteConfig.social.linkedin, siteConfig.social.facebook],
   };
 }
 

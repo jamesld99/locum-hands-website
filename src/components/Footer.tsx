@@ -58,9 +58,6 @@ export function Footer() {
             <a href={siteConfig.social.facebook} className="hover:text-teal-300" target="_blank" rel="noopener noreferrer">
               Facebook
             </a>
-            <a href={siteConfig.social.instagram} className="hover:text-teal-300" target="_blank" rel="noopener noreferrer">
-              Instagram
-            </a>
           </div>
         </div>
       </div>

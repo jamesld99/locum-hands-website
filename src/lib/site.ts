@@ -13,8 +13,8 @@ export const siteConfig = {
   url: "https://www.locumhands.co.uk",
   locale: "en_GB",
   email: "hello@locumhands.co.uk",
-  phone: "+44 20 3868 0000",
-  phoneDisplay: "020 3868 0000",
+  phone: "+44 7949 282054",
+  phoneDisplay: "07949 282054",
   // Postal/registered address is used for LocalBusiness schema.
   address: {
     streetAddress: "71-75 Shelton Street",
@@ -33,13 +33,11 @@ export const siteConfig = {
   founder: {
     name: "Lizette Hernandez",
     role: "Owner & Founder",
-    // Drop a professional headshot here to replace the branded placeholder.
-    photo: "/images/lizette-hernandez.jpg",
+    photo: "/images/lizette-hernandez.png",
   },
   social: {
     linkedin: "https://www.linkedin.com/company/locum-hands",
     facebook: "https://www.facebook.com/locumhands",
-    instagram: "https://www.instagram.com/locumhands",
   },
 } as const;
 
