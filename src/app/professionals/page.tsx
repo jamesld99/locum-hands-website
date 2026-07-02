@@ -4,6 +4,7 @@ import { Breadcrumbs, CtaBand, InlineLink } from "@/components/sections";
 import { JsonLd } from "@/components/JsonLd";
 import { breadcrumbSchema } from "@/lib/schema";
 import { ProfessionalForm } from "@/components/forms/ProfessionalForm";
+import { buildPageMetadata } from "@/lib/seo";
 import {
   CalendarIcon,
   CheckIcon,
@@ -13,18 +14,12 @@ import {
   WalletIcon,
 } from "@/components/icons";
 
-export const metadata: Metadata = {
-  title: "For Dental Professionals — Find Locum Work Across the UK",
+export const metadata: Metadata = buildPageMetadata({
+  title: "Find Dental Locum Work UK",
   description:
-    "Register with Locum Hands to find dental nurse locum jobs, hygienist locum work and dentist placements across the UK. Flexible hours, competitive pay and full compliance support.",
-  alternates: { canonical: "/professionals" },
-  openGraph: {
-    title: "Find Dental Locum Work Across the UK | Locum Hands",
-    description:
-      "Flexible dental locum work for nurses, hygienists, therapists and dentists. Register free and choose where and when you work.",
-    url: "/professionals",
-  },
-};
+    "Register with Locum Hands for dental nurse locum jobs, hygienist work and dentist placements across the UK. Flexible hours, competitive pay and compliance support.",
+  path: "/professionals",
+});
 
 const benefits = [
   {

@@ -5,6 +5,7 @@ import { Breadcrumbs, CtaBand } from "@/components/sections";
 import { JsonLd } from "@/components/JsonLd";
 import { breadcrumbSchema } from "@/lib/schema";
 import { PostCard } from "@/components/blog";
+import { buildNotFoundMetadata, buildPageMetadata } from "@/lib/seo";
 import {
   categories,
   getCategoryBySlug,
@@ -24,12 +25,12 @@ export async function generateMetadata({
 }): Promise<Metadata> {
   const { category } = await params;
   const cat = getCategoryBySlug(category);
-  if (!cat) return { title: "Category not found" };
-  return {
-    title: `${cat.name} — Dental Locum Blog`,
+  if (!cat) return buildNotFoundMetadata("Category not found");
+  return buildPageMetadata({
+    title: `${cat.name} Blog`,
     description: cat.description,
-    alternates: { canonical: `/blog/category/${cat.slug}` },
-  };
+    path: `/blog/category/${cat.slug}`,
+  });
 }
 
 export default async function CategoryPage({

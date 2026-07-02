@@ -5,6 +5,7 @@ import { Breadcrumbs, CtaBand } from "@/components/sections";
 import { JsonLd } from "@/components/JsonLd";
 import { breadcrumbSchema } from "@/lib/schema";
 import { PostCard } from "@/components/blog";
+import { buildPageMetadata } from "@/lib/seo";
 import {
   categories,
   getAllPosts,
@@ -12,12 +13,12 @@ import {
   tagToSlug,
 } from "@/lib/blog";
 
-export const metadata: Metadata = {
-  title: "Dental Locum Blog — Guides for Professionals & Practices",
+export const metadata: Metadata = buildPageMetadata({
+  title: "Dental Locum Blog",
   description:
     "Expert guides on dental nurse locum jobs, hygienist locum work, choosing a dentist locum agency and booking temporary dental staff across the UK.",
-  alternates: { canonical: "/blog" },
-};
+  path: "/blog",
+});
 
 export default function BlogIndexPage() {
   const posts = getAllPosts();

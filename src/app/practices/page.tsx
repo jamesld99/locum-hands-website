@@ -4,6 +4,7 @@ import { Breadcrumbs, CtaBand, InlineLink } from "@/components/sections";
 import { JsonLd } from "@/components/JsonLd";
 import { breadcrumbSchema } from "@/lib/schema";
 import { PracticeForm } from "@/components/forms/PracticeForm";
+import { buildPageMetadata } from "@/lib/seo";
 import {
   CheckIcon,
   ClockIcon,
@@ -13,18 +14,12 @@ import {
   UsersIcon,
 } from "@/components/icons";
 
-export const metadata: Metadata = {
-  title: "For Dental Practices — Book Temporary Dental Staff",
+export const metadata: Metadata = buildPageMetadata({
+  title: "Book Temporary Dental Staff",
   description:
-    "Book reliable, fully-vetted temporary dental staff with Locum Hands. Cover sickness, holidays and gaps with locum nurses, hygienists, therapists and dentists across the UK.",
-  alternates: { canonical: "/practices" },
-  openGraph: {
-    title: "Book Temporary Dental Staff Across the UK | Locum Hands",
-    description:
-      "Fast, reliable locum cover for UK dental practices. Pre-screened nurses, hygienists, therapists and dentists for planned or last-minute cover.",
-    url: "/practices",
-  },
-};
+    "Book reliable, fully-vetted temporary dental staff with Locum Hands. Cover sickness, holidays and gaps with locum nurses, hygienists and dentists across the UK.",
+  path: "/practices",
+});
 
 export default function PracticesPage() {
   return (

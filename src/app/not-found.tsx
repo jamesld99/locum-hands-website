@@ -1,4 +1,8 @@
+import type { Metadata } from "next";
 import { Container, ButtonLink } from "@/components/ui";
+import { buildNotFoundMetadata } from "@/lib/seo";
+
+export const metadata: Metadata = buildNotFoundMetadata();
 
 export default function NotFound() {
   return (
@@ -13,12 +17,21 @@ export default function NotFound() {
         Sorry, we couldn&apos;t find the page you were looking for. It may have moved
         or no longer exists.
       </p>
-      <div className="mt-8 flex flex-col items-center justify-center gap-3 sm:flex-row">
+      <div className="mt-8 flex flex-col items-center justify-center gap-3 sm:flex-row sm:flex-wrap">
         <ButtonLink href="/" variant="primary">
           Back to home
         </ButtonLink>
-        <ButtonLink href="/blog" variant="outline">
-          Visit the blog
+        <ButtonLink href="/professionals" variant="outline">
+          For professionals
+        </ButtonLink>
+        <ButtonLink href="/practices" variant="outline">
+          For practices
+        </ButtonLink>
+        <ButtonLink href="/resources" variant="outline">
+          Resources
+        </ButtonLink>
+        <ButtonLink href="/contact" variant="outline">
+          Contact us
         </ButtonLink>
       </div>
     </Container>

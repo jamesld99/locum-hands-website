@@ -5,6 +5,7 @@ import { Container } from "@/components/ui";
 import { Breadcrumbs, CtaBand } from "@/components/sections";
 import { JsonLd } from "@/components/JsonLd";
 import { breadcrumbSchema, guideSchema } from "@/lib/schema";
+import { buildNotFoundMetadata, buildPageMetadata } from "@/lib/seo";
 import { PostBody } from "@/components/blog";
 import {
   formatGuideDate,
@@ -27,26 +28,16 @@ export async function generateMetadata({
 }): Promise<Metadata> {
   const { slug } = await params;
   const guide = getGuideBySlug(slug);
-  if (!guide) return { title: "Guide not found" };
+  if (!guide) return buildNotFoundMetadata("Guide not found");
 
-  return {
-    title: guide.title,
+  return buildPageMetadata({
+    title: guide.metaTitle ?? guide.title,
     description: guide.description,
+    path: `/resources/${guide.slug}`,
+    type: "article",
     keywords: [guide.keyword],
-    alternates: { canonical: `/resources/${guide.slug}` },
-    openGraph: {
-      type: "article",
-      title: guide.title,
-      description: guide.description,
-      url: `/resources/${guide.slug}`,
-      modifiedTime: guide.updated,
-    },
-    twitter: {
-      card: "summary_large_image",
-      title: guide.title,
-      description: guide.description,
-    },
-  };
+    modifiedTime: guide.updated,
+  });
 }
 
 export default async function GuidePage({

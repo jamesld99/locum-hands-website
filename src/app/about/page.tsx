@@ -6,6 +6,7 @@ import { Container, Eyebrow } from "@/components/ui";
 import { Breadcrumbs, CtaBand, InlineLink, PageHero } from "@/components/sections";
 import { JsonLd } from "@/components/JsonLd";
 import { breadcrumbSchema } from "@/lib/schema";
+import { buildPageMetadata } from "@/lib/seo";
 import { siteConfig } from "@/lib/site";
 import {
   CheckIcon,
@@ -15,18 +16,12 @@ import {
   UsersIcon,
 } from "@/components/icons";
 
-export const metadata: Metadata = {
-  title: "About Us — Meet Founder Lizette Hernandez",
+export const metadata: Metadata = buildPageMetadata({
+  title: "About Us",
   description:
-    "Locum Hands Ltd is a family-run, UK-wide dental locum agency founded by Lizette Hernandez. Discover our story, our values and our commitment to connecting great dental professionals with practices.",
-  alternates: { canonical: "/about" },
-  openGraph: {
-    title: "About Locum Hands — Founded by Lizette Hernandez",
-    description:
-      "The story behind Locum Hands Ltd, a family-run UK dental locum agency, and the vision of founder Lizette Hernandez.",
-    url: "/about",
-  },
-};
+    "Locum Hands Ltd is a UK-wide dental locum agency founded by Lizette Hernandez. Discover our story, values and commitment to connecting dental professionals with practices.",
+  path: "/about",
+});
 
 const values = [
   {

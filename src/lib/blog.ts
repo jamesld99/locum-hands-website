@@ -44,6 +44,7 @@ export type ContentBlock =
 export type Post = {
   slug: string;
   title: string;
+  metaTitle?: string;
   description: string; // used as meta description + excerpt
   keyword: string; // primary target search term
   date: string; // ISO
@@ -59,6 +60,7 @@ export const posts: Post[] = [
   {
     slug: "dental-nurse-locum-jobs-uk-guide",
     title: "Dental Nurse Locum Jobs: The Complete UK Guide for 2026",
+    metaTitle: "Dental Nurse Locum Jobs UK Guide",
     description:
       "Everything dental nurses need to know about finding locum jobs in the UK — typical pay rates, the GDC requirements, how booking works and how to land your first placement.",
     keyword: "dental nurse locum jobs",
@@ -124,6 +126,7 @@ export const posts: Post[] = [
   {
     slug: "hygienist-locum-work-uk",
     title: "Hygienist Locum Work in the UK: Flexibility, Pay and Getting Booked",
+    metaTitle: "Hygienist Locum Work UK Guide",
     description:
       "A practical guide to hygienist locum work in the UK — how dental hygienists find flexible placements, what rates to expect and how to maximise your booked days.",
     keyword: "hygienist locum work",
@@ -177,6 +180,7 @@ export const posts: Post[] = [
   {
     slug: "choosing-a-dentist-locum-agency-uk",
     title: "How to Choose a Dentist Locum Agency in the UK",
+    metaTitle: "Choose a Dentist Locum Agency UK",
     description:
       "What to look for in a dentist locum agency in the UK — compliance support, fair rates, reliable bookings and genuine local knowledge across England, Scotland, Wales and Northern Ireland.",
     keyword: "dentist locum agency UK",
@@ -224,6 +228,7 @@ export const posts: Post[] = [
   {
     slug: "how-to-cover-temporary-dental-staff-shortages",
     title: "Temporary Dental Staff: How Practices Cover Shortages Without Downtime",
+    metaTitle: "Cover Dental Staff Shortages UK",
     description:
       "A practical playbook for dental practices on sourcing temporary dental staff fast — from planning around predictable gaps to booking last-minute locum cover that protects revenue.",
     keyword: "temporary dental staff",
@@ -279,6 +284,7 @@ export const posts: Post[] = [
   {
     slug: "dental-locum-nursing-explained",
     title: "Dental Locum Nursing Explained: Is It Right for You?",
+    metaTitle: "Dental Locum Nursing Explained",
     description:
       "Thinking about dental locum nursing? Learn the pros and cons, how pay and tax work, and the steps to move from a permanent role to flexible locum dental nursing in the UK.",
     keyword: "dental locum nursing",
@@ -331,6 +337,7 @@ export const posts: Post[] = [
   {
     slug: "uk-dental-staffing-trends-2026",
     title: "UK Dental Staffing in 2026: Trends Shaping Locum Demand",
+    metaTitle: "UK Dental Staffing Trends 2026",
     description:
       "An overview of the forces driving UK dental staffing in 2026 — workforce shortages, rising demand for flexible locums and what it means for practices and professionals alike.",
     keyword: "dental locum",

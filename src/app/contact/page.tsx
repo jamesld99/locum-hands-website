@@ -4,15 +4,16 @@ import { Breadcrumbs } from "@/components/sections";
 import { JsonLd } from "@/components/JsonLd";
 import { breadcrumbSchema } from "@/lib/schema";
 import { ContactForm } from "@/components/forms/ContactForm";
+import { buildPageMetadata } from "@/lib/seo";
 import { MailIcon, MapPinIcon, PhoneIcon, ClockIcon } from "@/components/icons";
 import { siteConfig } from "@/lib/site";
 
-export const metadata: Metadata = {
-  title: "Contact Us — Talk to the Locum Hands Team",
+export const metadata: Metadata = buildPageMetadata({
+  title: "Contact Us",
   description:
-    "Get in touch with Locum Hands Ltd. Whether you're a dental professional looking for locum work or a UK practice needing temporary staff, our team is here to help.",
-  alternates: { canonical: "/contact" },
-};
+    "Contact Locum Hands Ltd for dental locum work or temporary staff cover across the UK. Call, email or send an enquiry and our team will respond promptly.",
+  path: "/contact",
+});
 
 export default function ContactPage() {
   return (

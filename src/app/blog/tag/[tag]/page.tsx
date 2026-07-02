@@ -5,6 +5,7 @@ import { Breadcrumbs, CtaBand } from "@/components/sections";
 import { JsonLd } from "@/components/JsonLd";
 import { breadcrumbSchema } from "@/lib/schema";
 import { PostCard } from "@/components/blog";
+import { buildNotFoundMetadata, buildPageMetadata } from "@/lib/seo";
 import { getAllTags, getPostsByTagSlug, tagToSlug } from "@/lib/blog";
 
 type Params = { tag: string };
@@ -24,12 +25,12 @@ export async function generateMetadata({
 }): Promise<Metadata> {
   const { tag } = await params;
   const label = tagLabel(tag);
-  if (!label) return { title: "Tag not found" };
-  return {
-    title: `${label} — Dental Locum Articles`,
-    description: `Articles tagged “${label}” from the Locum Hands dental locum blog, covering tips and insight for UK dental professionals and practices.`,
-    alternates: { canonical: `/blog/tag/${tag}` },
-  };
+  if (!label) return buildNotFoundMetadata("Tag not found");
+  return buildPageMetadata({
+    title: `${label} Articles`,
+    description: `Articles tagged “${label}” from the Locum Hands dental locum blog, with tips and insight for UK dental professionals and practices.`,
+    path: `/blog/tag/${tag}`,
+  });
 }
 
 export default async function TagPage({

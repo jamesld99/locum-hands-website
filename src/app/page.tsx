@@ -15,13 +15,14 @@ import {
   WalletIcon,
 } from "@/components/icons";
 import { getAllPosts, formatDate } from "@/lib/blog";
+import { buildPageMetadata } from "@/lib/seo";
 
-export const metadata: Metadata = {
-  title: "UK Dental Locum Agency | Nurses, Hygienists & Dentists",
+export const metadata: Metadata = buildPageMetadata({
+  title: "UK Dental Locum Agency",
   description:
-    "Locum Hands Ltd connects dental nurses, hygienists and dentists with practices across the UK. Find flexible locum work or book reliable, fully-vetted temporary dental staff fast.",
-  alternates: { canonical: "/" },
-};
+    "Locum Hands connects dental nurses, hygienists and dentists with UK practices. Find flexible locum work or book reliable, fully-vetted temporary dental staff.",
+  path: "/",
+});
 
 export default function HomePage() {
   const latestPosts = getAllPosts().slice(0, 3);
@@ -209,6 +210,8 @@ export default function HomePage() {
               </ul>
               <div className="mt-8">
                 <InlineLink href="/about">Read the Locum Hands story</InlineLink>
+                {" · "}
+                <InlineLink href="/resources">Browse our guides</InlineLink>
               </div>
             </div>
             <div className="grid gap-4 sm:grid-cols-2">

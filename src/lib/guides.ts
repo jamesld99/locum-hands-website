@@ -14,6 +14,7 @@ export type GuideAudience = "professionals" | "practices";
 export type Guide = {
   slug: string;
   title: string;
+  metaTitle?: string;
   description: string;
   keyword: string;
   audience: GuideAudience;
@@ -29,6 +30,7 @@ export const guides: Guide[] = [
   {
     slug: "how-to-find-dental-locum-work-uk",
     title: "How to Find Dental Locum Work in the UK",
+    metaTitle: "Find Dental Locum Work UK",
     description:
       "A step-by-step guide to finding dental locum work in the UK — from getting your compliance in order and choosing an agency to landing your first placement and getting booked consistently.",
     keyword: "how to find dental locum work in the UK",
@@ -110,6 +112,7 @@ export const guides: Guide[] = [
   {
     slug: "benefits-of-working-as-a-dental-locum",
     title: "The Benefits of Working as a Dental Locum",
+    metaTitle: "Benefits of Dental Locum Work",
     description:
       "Thinking about locum work? Discover the real benefits of working as a dental locum in the UK — flexibility, higher earning potential, variety and control over your career.",
     keyword: "benefits of working as a dental locum",
@@ -163,6 +166,7 @@ export const guides: Guide[] = [
   {
     slug: "why-dental-practices-choose-locum-agencies",
     title: "Why Dental Practices Choose Locum Agencies",
+    metaTitle: "Why Practices Choose Locum Agencies",
     description:
       "Discover why UK dental practices rely on locum agencies to cover staff shortages — faster cover, guaranteed compliance, reduced admin and protected revenue.",
     keyword: "why dental practices choose locum agencies",
@@ -227,6 +231,7 @@ export const guides: Guide[] = [
   {
     slug: "guide-to-temporary-dental-staffing-solutions",
     title: "A Guide to Temporary Dental Staffing Solutions",
+    metaTitle: "Temporary Dental Staffing Guide",
     description:
       "Everything UK dental practices need to know about temporary dental staffing solutions — types of cover, when to use them, how to choose a partner and how to brief locum staff.",
     keyword: "temporary dental staffing solutions",

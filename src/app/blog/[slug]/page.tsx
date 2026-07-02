@@ -5,6 +5,7 @@ import { Container } from "@/components/ui";
 import { Breadcrumbs, CtaBand } from "@/components/sections";
 import { JsonLd } from "@/components/JsonLd";
 import { articleSchema, breadcrumbSchema } from "@/lib/schema";
+import { buildNotFoundMetadata, buildPageMetadata } from "@/lib/seo";
 import { PostBody, TagList } from "@/components/blog";
 import {
   formatDate,
@@ -28,29 +29,19 @@ export async function generateMetadata({
 }): Promise<Metadata> {
   const { slug } = await params;
   const post = getPostBySlug(slug);
-  if (!post) return { title: "Article not found" };
+  if (!post) return buildNotFoundMetadata("Article not found");
 
-  return {
-    title: post.title,
+  return buildPageMetadata({
+    title: post.metaTitle ?? post.title,
     description: post.description,
+    path: `/blog/${post.slug}`,
+    type: "article",
     keywords: post.tags,
-    alternates: { canonical: `/blog/${post.slug}` },
-    openGraph: {
-      type: "article",
-      title: post.title,
-      description: post.description,
-      url: `/blog/${post.slug}`,
-      publishedTime: post.date,
-      modifiedTime: post.updated ?? post.date,
-      authors: [post.author],
-      tags: post.tags,
-    },
-    twitter: {
-      card: "summary_large_image",
-      title: post.title,
-      description: post.description,
-    },
-  };
+    publishedTime: post.date,
+    modifiedTime: post.updated ?? post.date,
+    authors: [post.author],
+    tags: post.tags,
+  });
 }
 
 export default async function BlogPostPage({

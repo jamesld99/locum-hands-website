@@ -37,13 +37,9 @@ export const metadata: Metadata = {
   authors: [{ name: siteConfig.legalName }],
   creator: siteConfig.legalName,
   publisher: siteConfig.legalName,
-  alternates: {
-    canonical: "/",
-  },
   openGraph: {
     type: "website",
     locale: siteConfig.locale,
-    url: siteConfig.url,
     siteName: siteConfig.name,
     title: `${siteConfig.name} | UK Dental Locum Agency`,
     description: siteConfig.description,

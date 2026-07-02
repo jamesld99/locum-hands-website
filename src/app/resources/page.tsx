@@ -4,20 +4,15 @@ import { Container, Eyebrow } from "@/components/ui";
 import { Breadcrumbs, CtaBand, InlineLink } from "@/components/sections";
 import { JsonLd } from "@/components/JsonLd";
 import { breadcrumbSchema } from "@/lib/schema";
+import { buildPageMetadata } from "@/lib/seo";
 import { getGuidesByAudience, type Guide } from "@/lib/guides";
 
-export const metadata: Metadata = {
-  title: "Resources & Guides — Dental Locum Knowledge Hub",
+export const metadata: Metadata = buildPageMetadata({
+  title: "Dental Locum Guides",
   description:
-    "Free guides for dental professionals and practices: how to find dental locum work in the UK, the benefits of locum work, why practices choose locum agencies and temporary staffing solutions.",
-  alternates: { canonical: "/resources" },
-  openGraph: {
-    title: "Dental Locum Resources & Guides | Locum Hands",
-    description:
-      "In-depth guides for UK dental locums and practices — finding work, the benefits of going locum, and temporary dental staffing solutions.",
-    url: "/resources",
-  },
-};
+    "Free guides for dental professionals and practices: finding locum work in the UK, benefits of locum work, why practices choose agencies and staffing solutions.",
+  path: "/resources",
+});
 
 export default function ResourcesPage() {
   const professionalGuides = getGuidesByAudience("professionals");
@@ -48,7 +43,8 @@ export default function ResourcesPage() {
             <p className="mt-5 text-lg leading-relaxed text-navy-600">
               Practical, in-depth guides to help dental professionals build flexible
               careers and help UK practices solve their staffing challenges. Free to
-              read, written by people who know dentistry.
+              read, written by people who know dentistry.{" "}
+              <InlineLink href="/blog">Read shorter articles on our blog</InlineLink>.
             </p>
           </div>
         </Container>

@@ -4,14 +4,15 @@ import { Container, Eyebrow } from "@/components/ui";
 import { Breadcrumbs, CtaBand } from "@/components/sections";
 import { JsonLd } from "@/components/JsonLd";
 import { breadcrumbSchema, faqSchema } from "@/lib/schema";
+import { buildPageMetadata } from "@/lib/seo";
 import { allFaqs, faqGroups } from "@/lib/faqs";
 
-export const metadata: Metadata = {
-  title: "FAQs — Dental Locum Questions Answered",
+export const metadata: Metadata = buildPageMetadata({
+  title: "Dental Locum FAQs",
   description:
-    "Frequently asked questions about Locum Hands for dental professionals and practices: registration, pay, compliance, booking temporary dental staff and more.",
-  alternates: { canonical: "/faqs" },
-};
+    "Answers to common questions about Locum Hands for dental professionals and practices: registration, pay, compliance, booking temporary staff and more.",
+  path: "/faqs",
+});
 
 export default function FaqsPage() {
   return (
