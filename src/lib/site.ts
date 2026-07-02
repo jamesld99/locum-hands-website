@@ -6,7 +6,7 @@
 export const siteConfig = {
   name: "Locum Hands Ltd",
   shortName: "Locum Hands",
-  legalName: "Locum Hands Limited",
+  legalName: "LOCUM HANDS LTD",
   description:
     "Locum Hands Ltd is a UK-wide dental locum agency connecting dental nurses, hygienists and dentists with dental practices that need reliable temporary staff.",
   // Primary production URL (matches Vercel: www is production, apex redirects here).
@@ -15,13 +15,26 @@ export const siteConfig = {
   email: "hello@locumhands.co.uk",
   phone: "+44 7949 282054",
   phoneDisplay: "07949 282054",
-  // Locum Hands is a UK-wide service business with no public office address.
+  companiesHouse: {
+    url: "https://find-and-update.company-information.service.gov.uk/company/17310093",
+    number: "17310093",
+    incorporated: "2026-06-30",
+    jurisdiction: "England and Wales",
+  },
+  // Registered office (Companies House). Required on UK limited company websites.
+  registeredOffice: {
+    streetAddress: "Flat A, 615 Wolseley Road",
+    addressLocality: "Plymouth",
+    postalCode: "PL5 1JJ",
+    addressCountry: "GB",
+  },
+  // Service area for schema — UK-wide; not a public walk-in office.
   address: {
     addressCountry: "GB",
   },
   areaServed: "United Kingdom",
   openingHours: "Mo-Fr 08:00-18:00",
-  foundingYear: "2024",
+  foundingYear: "2026",
   founder: {
     name: "Lizette Hernandez",
     role: "Owner & Founder",

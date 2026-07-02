@@ -23,7 +23,13 @@ export function organizationSchema() {
     description: siteConfig.description,
     email: siteConfig.email,
     telephone: siteConfig.phone,
-    foundingDate: siteConfig.foundingYear,
+    foundingDate: siteConfig.companiesHouse.incorporated,
+    identifier: {
+      "@type": "PropertyValue",
+      propertyID: "Companies House",
+      name: "Company number",
+      value: siteConfig.companiesHouse.number,
+    },
     founder: {
       "@type": "Person",
       name: siteConfig.founder.name,
@@ -43,9 +49,16 @@ export function organizationSchema() {
     },
     address: {
       "@type": "PostalAddress",
-      addressCountry: siteConfig.address.addressCountry,
+      streetAddress: siteConfig.registeredOffice.streetAddress,
+      addressLocality: siteConfig.registeredOffice.addressLocality,
+      postalCode: siteConfig.registeredOffice.postalCode,
+      addressCountry: siteConfig.registeredOffice.addressCountry,
     },
-    sameAs: [siteConfig.social.linkedin, siteConfig.social.facebook],
+    sameAs: [
+      siteConfig.companiesHouse.url,
+      siteConfig.social.linkedin,
+      siteConfig.social.facebook,
+    ],
   };
 }
 
@@ -63,7 +76,10 @@ export function localBusinessSchema() {
     description: siteConfig.description,
     address: {
       "@type": "PostalAddress",
-      addressCountry: siteConfig.address.addressCountry,
+      streetAddress: siteConfig.registeredOffice.streetAddress,
+      addressLocality: siteConfig.registeredOffice.addressLocality,
+      postalCode: siteConfig.registeredOffice.postalCode,
+      addressCountry: siteConfig.registeredOffice.addressCountry,
     },
     areaServed: {
       "@type": "Country",
@@ -75,7 +91,11 @@ export function localBusinessSchema() {
       opens: "08:00",
       closes: "18:00",
     },
-    sameAs: [siteConfig.social.linkedin, siteConfig.social.facebook],
+    sameAs: [
+      siteConfig.companiesHouse.url,
+      siteConfig.social.linkedin,
+      siteConfig.social.facebook,
+    ],
   };
 }
 

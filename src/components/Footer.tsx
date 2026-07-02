@@ -1,5 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
+import { formatRegisteredOffice } from "@/lib/company";
 import { footerNav, siteConfig } from "@/lib/site";
 
 export function Footer() {
@@ -45,19 +46,43 @@ export function Footer() {
           <FooterColumn title="Company" links={footerNav.company} />
         </div>
 
-        <div className="mt-12 flex flex-col items-start justify-between gap-4 border-t border-navy-700 pt-8 text-sm text-navy-300 sm:flex-row sm:items-center">
-          <p>
-            &copy; {year} {siteConfig.legalName}. Serving dental practices and
-            professionals across the United Kingdom.
-          </p>
-          <div className="flex gap-4">
-            <a href={siteConfig.social.linkedin} className="hover:text-teal-300" target="_blank" rel="noopener noreferrer">
-              LinkedIn
-            </a>
-            <a href={siteConfig.social.facebook} className="hover:text-teal-300" target="_blank" rel="noopener noreferrer">
-              Facebook
-            </a>
+        <div className="mt-12 space-y-4 border-t border-navy-700 pt-8 text-sm text-navy-300">
+          <div className="flex flex-col items-start justify-between gap-4 sm:flex-row sm:items-center">
+            <p>
+              &copy; {year} {siteConfig.legalName}. Serving dental practices and
+              professionals across the United Kingdom.
+            </p>
+            <div className="flex gap-4">
+              <a href={siteConfig.social.linkedin} className="hover:text-teal-300" target="_blank" rel="noopener noreferrer">
+                LinkedIn
+              </a>
+              <a href={siteConfig.social.facebook} className="hover:text-teal-300" target="_blank" rel="noopener noreferrer">
+                Facebook
+              </a>
+            </div>
           </div>
+          <p className="max-w-3xl text-xs leading-relaxed text-navy-400">
+            {siteConfig.legalName} is a company registered in{" "}
+            {siteConfig.companiesHouse.jurisdiction}. Company number{" "}
+            <a
+              href={siteConfig.companiesHouse.url}
+              className="text-navy-300 underline decoration-navy-600 underline-offset-2 hover:text-teal-300"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              {siteConfig.companiesHouse.number}
+            </a>
+            . Registered office: {formatRegisteredOffice()}.{" "}
+            <a
+              href={siteConfig.companiesHouse.url}
+              className="text-navy-300 underline decoration-navy-600 underline-offset-2 hover:text-teal-300"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              View on Companies House
+            </a>
+            .
+          </p>
         </div>
       </div>
     </footer>
