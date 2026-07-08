@@ -19,7 +19,7 @@ import {
 export const metadata: Metadata = buildPageMetadata({
   title: "About Us",
   description:
-    "Locum Hands Ltd is a UK-wide dental locum agency founded by Lizette Hernandez. Discover our story, values and commitment to connecting dental professionals with practices.",
+    "Locum Hands Ltd is a UK-wide dental locum agency founded by Liset Hernandez. Discover our story, values and commitment to connecting dental professionals with practices.",
   path: "/about",
 });
 
@@ -102,14 +102,14 @@ export default function AboutPage() {
               </p>
               <div className="mt-6 space-y-5 text-lg leading-relaxed text-navy-600">
                 <p>
-                  Locum Hands was founded by Lizette Hernandez, who saw first-hand
+                  Locum Hands was founded by Liset Hernandez, who saw first-hand
                   how stressful and time-consuming finding good dental cover could be
                   — for clinicians and practices alike. She set out to build an agency
                   that does things differently: personal, dependable and genuinely on
                   your side.
                 </p>
                 <p>
-                  Lizette brings a deep understanding of the dental sector and a
+                  Liset brings a deep understanding of the dental sector and a
                   passion for matching talented professionals with the practices that
                   need them. Her vision is an agency where dental nurses, hygienists,
                   therapists and dentists feel supported to build careers on their own
@@ -245,7 +245,7 @@ function FounderPortrait({ hasPhoto }: { hasPhoto: boolean }) {
   }
 
   // Branded placeholder shown until a real headshot is added at
-  // public/images/lizette-hernandez.jpg
+  // public/images/liset-hernandez.jpg
   const initials = siteConfig.founder.name
     .split(" ")
     .map((n) => n[0])

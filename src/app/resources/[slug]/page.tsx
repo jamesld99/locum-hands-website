@@ -37,6 +37,9 @@ export async function generateMetadata({
     type: "article",
     keywords: [guide.keyword],
     modifiedTime: guide.updated,
+    ...(guide.image && {
+      image: { url: guide.image, alt: guide.title },
+    }),
   });
 }
 
@@ -74,6 +77,7 @@ export default async function GuidePage({
             description: guide.description,
             slug: guide.slug,
             updated: guide.updated,
+            image: guide.image,
           }),
           breadcrumbSchema([
             { name: "Home", url: "/" },

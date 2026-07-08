@@ -14,7 +14,7 @@ export function Footer() {
             <Link href="/" className="flex items-center gap-3" aria-label="Locum Hands Ltd home">
               <span className="flex h-12 w-12 items-center justify-center rounded-lg bg-white">
                 <Image
-                  src="/images/locum-hands-logo.png"
+                  src="/images/locum-hands-icon.png"
                   alt="Locum Hands Ltd logo"
                   width={44}
                   height={44}

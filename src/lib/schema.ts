@@ -177,6 +177,7 @@ export function guideSchema(guide: {
   description: string;
   slug: string;
   updated: string;
+  image?: string;
 }) {
   return {
     "@context": "https://schema.org",
@@ -191,7 +192,9 @@ export function guideSchema(guide: {
       "@type": "WebPage",
       "@id": `${siteConfig.url}/resources/${guide.slug}`,
     },
-    image: `${siteConfig.url}/images/locum-hands-logo.png`,
+    image: guide.image
+      ? `${siteConfig.url}${guide.image}`
+      : `${siteConfig.url}/images/locum-hands-logo.png`,
     inLanguage: "en-GB",
   };
 }

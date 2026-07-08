@@ -21,6 +21,10 @@ export type Guide = {
   readingTime: number;
   updated: string; // ISO
   body: ContentBlock[];
+  // Optional featured image (absolute path from /public, e.g.
+  // "/images/guides/my-guide.png"). Used for the OG/Twitter card and the
+  // guideSchema JSON-LD; falls back to the site OG image when unset.
+  image?: string;
   // Internal linking: related blog post slugs and curated CTAs.
   relatedPosts: string[];
   relatedGuides: string[];

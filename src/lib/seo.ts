@@ -6,6 +6,11 @@ export const SEO = {
   brandSuffix: "Locum Hands",
   maxTitleLength: 60,
   maxDescriptionLength: 160,
+  // TODO(og-share): This is the single source of truth for the OG/Twitter card
+  // image (used by layout.tsx and every buildPageMetadata() page). Once the
+  // landscape share image is dropped in at public/images/og-share.png, swap the
+  // three lines below to: url "/images/og-share.png", width 1200, height 630.
+  // Keep locum-hands-logo.png elsewhere (favicons, schema.ts Organization.logo).
   defaultOgImage: {
     url: "/images/locum-hands-logo.png",
     width: 1024,
@@ -35,6 +40,13 @@ export function buildAbsoluteTitle(pageTitle: string): string {
   return `${title}${suffix}`;
 }
 
+type OgImage = {
+  url: string;
+  width?: number;
+  height?: number;
+  alt?: string;
+};
+
 type PageMetadataOptions = {
   title: string;
   description: string;
@@ -46,6 +58,8 @@ type PageMetadataOptions = {
   authors?: string[];
   tags?: string[];
   noIndex?: boolean;
+  // Optional per-page share image; falls back to SEO.defaultOgImage when unset.
+  image?: OgImage;
 };
 
 /** Standard page metadata with canonical, Open Graph and Twitter cards. */
@@ -61,10 +75,12 @@ export function buildPageMetadata(options: PageMetadataOptions): Metadata {
     authors,
     tags,
     noIndex = false,
+    image,
   } = options;
 
   const absoluteTitle = buildAbsoluteTitle(title);
   const metaDescription = trimDescription(description);
+  const ogImage = image ?? SEO.defaultOgImage;
 
   return {
     title: { absolute: absoluteTitle },
@@ -77,7 +93,7 @@ export function buildPageMetadata(options: PageMetadataOptions): Metadata {
       siteName: siteConfig.name,
       title: absoluteTitle,
       description: metaDescription,
-      images: [SEO.defaultOgImage],
+      images: [ogImage],
       ...(type === "article" && {
         publishedTime,
         modifiedTime,
@@ -89,7 +105,7 @@ export function buildPageMetadata(options: PageMetadataOptions): Metadata {
       card: "summary_large_image",
       title: absoluteTitle,
       description: metaDescription,
-      images: [SEO.defaultOgImage.url],
+      images: [ogImage.url],
     },
     ...(keywords && { keywords }),
     ...(noIndex && {

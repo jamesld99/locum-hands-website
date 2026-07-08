@@ -54,6 +54,10 @@ export type Post = {
   categorySlug: string;
   tags: string[];
   body: ContentBlock[];
+  // Optional featured image (absolute path from /public, e.g.
+  // "/images/posts/my-post.png"). Used for the OG/Twitter card and the
+  // articleSchema JSON-LD; falls back to the site OG image when unset.
+  image?: string;
 };
 
 export const posts: Post[] = [

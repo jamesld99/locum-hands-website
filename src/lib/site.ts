@@ -36,12 +36,12 @@ export const siteConfig = {
   openingHours: "Mo-Fr 08:00-18:00",
   foundingYear: "2026",
   founder: {
-    name: "Lizette Hernandez",
+    name: "Liset Hernandez",
     role: "Owner & Founder",
-    photo: "/images/lizette-hernandez.png",
+    photo: "/images/liset-hernandez.png",
   },
   social: {
-    linkedin: "https://www.linkedin.com/company/locum-hands",
+    linkedin: "https://www.linkedin.com/company/locum-hands-ltd/",
     facebook: "https://www.facebook.com/locumhands",
   },
 } as const;

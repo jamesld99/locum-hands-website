@@ -41,6 +41,9 @@ export async function generateMetadata({
     modifiedTime: post.updated ?? post.date,
     authors: [post.author],
     tags: post.tags,
+    ...(post.image && {
+      image: { url: post.image, alt: post.title },
+    }),
   });
 }
 
@@ -67,6 +70,7 @@ export default async function BlogPostPage({
             date: post.date,
             updated: post.updated,
             author: post.author,
+            image: post.image,
           }),
           breadcrumbSchema([
             { name: "Home", url: "/" },

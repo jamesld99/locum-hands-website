@@ -19,7 +19,7 @@ export function Header() {
       <nav aria-label="Primary" className="mx-auto flex max-w-6xl items-center justify-between px-4 py-3 sm:px-6 lg:px-8">
         <Link href="/" className="flex items-center gap-3" aria-label="Locum Hands Ltd home">
           <Image
-            src="/images/locum-hands-logo.png"
+            src="/images/locum-hands-icon.png"
             alt="Locum Hands Ltd logo"
             width={56}
             height={56}

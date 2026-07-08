@@ -5,6 +5,7 @@ import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import { JsonLd } from "@/components/JsonLd";
 import { siteConfig } from "@/lib/site";
+import { SEO } from "@/lib/seo";
 import {
   localBusinessSchema,
   organizationSchema,
@@ -43,20 +44,13 @@ export const metadata: Metadata = {
     siteName: siteConfig.name,
     title: `${siteConfig.name} | UK Dental Locum Agency`,
     description: siteConfig.description,
-    images: [
-      {
-        url: "/images/locum-hands-logo.png",
-        width: 1024,
-        height: 1024,
-        alt: "Locum Hands Ltd — UK dental locum agency",
-      },
-    ],
+    images: [SEO.defaultOgImage],
   },
   twitter: {
     card: "summary_large_image",
     title: `${siteConfig.name} | UK Dental Locum Agency`,
     description: siteConfig.description,
-    images: ["/images/locum-hands-logo.png"],
+    images: [SEO.defaultOgImage.url],
   },
   robots: {
     index: true,
