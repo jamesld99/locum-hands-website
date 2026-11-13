@@ -1,83 +1,47 @@
 import { NextResponse, type NextRequest } from "next/server";
 import type { ZodType } from "zod";
-import { saveSubmission, type SubmissionKind } from "./storage";
+import { clientIp } from "./enquiries/rate-limit";
+import { getEnquiryStore } from "./enquiries/runtime";
+import { handleEnquiryRequest, type EnquiryDeps } from "./enquiries/submit";
+import { createMailerFromEnv } from "./enquiries/notify";
+import type { EnquiryKind } from "./enquiries/types";
 
-/**
- * Very small in-memory rate limiter. Good enough to blunt abuse on a single
- * instance; for multi-instance production swap for a shared store (e.g. Upstash).
- */
-const hits = new Map<string, { count: number; reset: number }>();
-const WINDOW_MS = 60_000;
-const MAX_PER_WINDOW = 5;
-
-function rateLimited(ip: string): boolean {
-  const now = Date.now();
-  const entry = hits.get(ip);
-  if (!entry || now > entry.reset) {
-    hits.set(ip, { count: 1, reset: now + WINDOW_MS });
-    return false;
-  }
-  entry.count += 1;
-  return entry.count > MAX_PER_WINDOW;
-}
-
-function getIp(req: NextRequest): string {
-  const fwd = req.headers.get("x-forwarded-for");
-  if (fwd) return fwd.split(",")[0]!.trim();
-  return req.headers.get("x-real-ip") ?? "unknown";
+function defaultDeps(): EnquiryDeps {
+  return {
+    getStore: () => getEnquiryStore(),
+    mailer: createMailerFromEnv(),
+    from: process.env.ENQUIRY_FROM_EMAIL || "Locum Hands <notifications@notify.locumhands.co.uk>",
+    to: process.env.ENQUIRY_TO_EMAIL || "hello@locumhands.co.uk",
+  };
 }
 
 /**
- * Shared POST handler: rate-limits, validates with a Zod schema, rejects
- * honeypot hits, and persists the submission.
+ * Shared POST handler. Validates, rate-limits through Postgres, saves the
+ * enquiry, then attempts the notification. A receipt is returned only after
+ * the database save commits.
  */
-export async function handleSubmission(
-  req: NextRequest,
-  kind: SubmissionKind,
-  schema: ZodType,
-) {
-  const ip = getIp(req);
-
-  if (rateLimited(ip)) {
-    return NextResponse.json(
-      { ok: false, error: "Too many requests. Please try again shortly." },
-      { status: 429 },
-    );
-  }
-
-  let json: unknown;
+export async function handleSubmission(req: NextRequest, kind: EnquiryKind, schema: ZodType) {
+  let bodyText = "";
   try {
-    json = await req.json();
+    bodyText = await req.text();
   } catch {
     return NextResponse.json({ ok: false, error: "Invalid request body." }, { status: 400 });
   }
 
-  const parsed = schema.safeParse(json);
-  if (!parsed.success) {
-    return NextResponse.json(
-      { ok: false, error: "Validation failed.", issues: parsed.error.flatten() },
-      { status: 422 },
-    );
-  }
+  const result = await handleEnquiryRequest(
+    {
+      kind,
+      schema,
+      contentType: req.headers.get("content-type"),
+      contentLength: req.headers.get("content-length"),
+      bodyText,
+      ipHint: clientIp(req.headers),
+    },
+    defaultDeps(),
+  );
 
-  const data = parsed.data as Record<string, unknown>;
-
-  // Honeypot: silently accept but discard obvious bot submissions.
-  if (typeof data.website === "string" && data.website.length > 0) {
-    return NextResponse.json({ ok: true, id: "ignored" });
-  }
-
-  try {
-    const { id } = await saveSubmission(kind, data, {
-      ip,
-      userAgent: req.headers.get("user-agent"),
-    });
-    return NextResponse.json({ ok: true, id }, { status: 201 });
-  } catch (err) {
-    console.error(`Failed to save ${kind} submission`, err);
-    return NextResponse.json(
-      { ok: false, error: "We couldn't save your submission. Please try again." },
-      { status: 500 },
-    );
-  }
+  return NextResponse.json(result.body, {
+    status: result.status,
+    headers: result.status === 429 ? { "Retry-After": "600" } : undefined,
+  });
 }

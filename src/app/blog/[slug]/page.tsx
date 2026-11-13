@@ -108,7 +108,10 @@ export default async function BlogPostPage({
               {post.title}
             </h1>
             <div className="mt-5 flex flex-wrap items-center gap-x-4 gap-y-1 text-sm text-navy-500">
-              <span>By {post.author}</span>
+              <span>
+                By {post.author}
+                {post.author === "Liset Hernandez" ? ", locum dental nurse and founder" : ""}
+              </span>
               <span aria-hidden="true">•</span>
               <time dateTime={post.date}>{formatDate(post.date)}</time>
               <span aria-hidden="true">•</span>
@@ -147,7 +150,7 @@ export default async function BlogPostPage({
                       <Link href="/practices#enquiry" className="font-semibold text-teal-600 hover:text-teal-700">
                         booking enquiry
                       </Link>{" "}
-                      and we&apos;ll find you reliable cover.
+                      and we&apos;ll check what may be possible. Sending the form does not confirm a booking.
                     </>
                   ) : (
                     <>
@@ -219,7 +222,7 @@ export default async function BlogPostPage({
                 </h2>
                 <p className="mt-2 text-sm text-navy-100">
                   {post.categorySlug === "for-practices"
-                    ? "Book reliable, vetted locum staff across the UK."
+                    ? "Tell us the dates. An enquiry does not confirm a booking."
                     : "Find flexible dental locum work that fits your life."}
                 </p>
                 <Link
@@ -242,10 +245,10 @@ export default async function BlogPostPage({
       </section>
 
       <CtaBand
-        title="Find work or book staff today"
-        description="Locum Hands connects dental professionals and practices across the United Kingdom."
+        title="Find work or enquire about cover"
+        description="Locum Hands introduces dental professionals and practices across the United Kingdom."
         primary={{ href: "/professionals#register", label: "Find locum work" }}
-        secondary={{ href: "/practices#enquiry", label: "Book locum staff" }}
+        secondary={{ href: "/practices#enquiry", label: "Enquire about cover" }}
       />
     </>
   );

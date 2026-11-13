@@ -11,7 +11,7 @@ import { siteConfig } from "@/lib/site";
 export const metadata: Metadata = buildPageMetadata({
   title: "Contact Us",
   description:
-    "Contact Locum Hands Ltd for dental locum work or temporary staff cover across the UK. Call, email or send an enquiry and our team will respond promptly.",
+    "Contact Locum Hands Ltd about dental locum work or temporary staff cover across the UK. Call 07949 282054, email hello@locumhands.co.uk or send a message.",
   path: "/contact",
 });
 
@@ -39,8 +39,8 @@ export default function ContactPage() {
               We&apos;d love to hear from you
             </h1>
             <p className="mt-5 text-lg leading-relaxed text-navy-600">
-              Questions about finding locum work or booking dental staff? Send us a
-              message and we&apos;ll get back to you within one working day.
+              Questions about finding locum work or arranging cover? Call, email or
+              send a message. We can&apos;t promise a reply by a set time.
             </p>
           </div>
         </Container>

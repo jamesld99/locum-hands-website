@@ -19,17 +19,17 @@ export const faqGroups: FaqGroup[] = [
       {
         question: "Who can register as a locum with Locum Hands?",
         answer:
-          "We welcome GDC-registered dental nurses, dental hygienists, dental therapists and dentists across the UK. You'll need current GDC registration, valid indemnity, an enhanced DBS, immunisation records and up-to-date CPD.",
+          "We welcome dental nurses, dental hygienists, dental therapists, dentists and other dental roles from across the UK. What you need depends on the role and the placement. That often includes GDC registration where it applies, professional indemnity, the relevant disclosure check (an enhanced DBS, PVG in Scotland or AccessNI in Northern Ireland), photo ID, qualifications, and hepatitis B evidence or CPD where a placement asks for them.",
       },
       {
         question: "How quickly can I start getting locum bookings?",
         answer:
-          "Once you have registered and we have verified your compliance documents, you can start receiving suitable bookings straight away — often within a few days, depending on demand in your area and your availability.",
+          "After you register, we'll talk to you about the documents a placement needs. We can't promise how soon a booking will come up. It depends on your role, where you want to work and what practices are asking for.",
       },
       {
         question: "How much do locum dental professionals earn?",
         answer:
-          "Rates depend on your role, experience, location and how urgently cover is needed. As a guide, locum dental nurses typically earn £14–£22 per hour and hygienists £30–£45+ per hour, with higher rates common in London and the South East and for short-notice cover.",
+          "You set your own locum rate. We'll discuss it with the dental practice and negotiate with the aim of staying close to the usual rates for your role in that area. You'll know the agreed rate before you decide whether to accept the booking.",
       },
       {
         question: "Can I choose where and when I work?",
@@ -39,7 +39,7 @@ export const faqGroups: FaqGroup[] = [
       {
         question: "Do you help with compliance and paperwork?",
         answer:
-          "Absolutely. Our team helps you keep your GDC registration, indemnity, DBS and immunisation records organised so you're always ready to accept bookings compliantly.",
+          "We can tell you what a placement is likely to need, and we'll contact you about sharing documents securely. The website doesn't ask you to upload files or answer medical questions.",
       },
     ],
   },
@@ -50,17 +50,17 @@ export const faqGroups: FaqGroup[] = [
       {
         question: "How do I book temporary dental staff?",
         answer:
-          "Send us a booking enquiry with the role you need, your location, the dates and how long cover is required. We'll match you with screened, compliant professionals and confirm the details with you quickly.",
+          "Send a booking enquiry with the role, the practice location, the dates and the hours. We'll look at what may be possible and confirm the locum's rate and the booking fee before you book. Sending the form does not confirm a booking.",
       },
       {
         question: "How fast can you provide cover?",
         answer:
-          "We handle both planned cover and last-minute emergencies. For urgent sickness cover we work to mobilise vetted staff as quickly as possible — often the same or next day where availability allows.",
+          "Tell us the dates, including any that are still tentative. We'll check who may be free. We can't guarantee same-day or next-day cover, and sending an enquiry does not confirm a booking.",
       },
       {
-        question: "Are your locums fully vetted and compliant?",
+        question: "What documents do you ask for?",
         answer:
-          "Yes. Every professional we place is pre-screened for GDC registration, indemnity, DBS, immunisation status and references, so you can welcome them knowing the paperwork is handled.",
+          "It depends on the role and the placement. Dentists and dental care professionals must be registered with the General Dental Council before they practise. We also talk through professional indemnity, the relevant disclosure check (an enhanced DBS in England and Wales, PVG in Scotland or AccessNI in Northern Ireland, where it applies), photo ID, and hepatitis B evidence or CPD where a placement asks for them. We'll explain how to share any required documents securely after you get in touch. We don't collect those documents on the website form.",
       },
       {
         question: "Which roles can you cover?",
@@ -75,7 +75,7 @@ export const faqGroups: FaqGroup[] = [
       {
         question: "How does pricing work for practices?",
         answer:
-          "Pricing depends on the role, location and notice period. We're transparent about rates with no hidden fees — contact us for a clear quote tailored to your booking.",
+          "The dental practice pays a fixed Locum Hands booking fee once per booked day. The fee is £40 per day for a dental nurse or hygienist and £60 per day for a dentist. This is separate from the locum's agreed rate. We confirm both amounts before you book.",
       },
     ],
   },
@@ -86,17 +86,17 @@ export const faqGroups: FaqGroup[] = [
       {
         question: "Where is Locum Hands based and what areas do you serve?",
         answer:
-          "Locum Hands Ltd is a UK-wide dental locum agency. While we're registered in London, we connect professionals and practices right across the United Kingdom.",
+          "Locum Hands Ltd is a UK-wide dental locum agency. Our registered office is Flat A, 615 Wolseley Road, Plymouth, PL5 1JJ. That address is the registered office, not a public walk-in branch. We work with professionals and practices across England, Scotland, Wales and Northern Ireland.",
       },
       {
         question: "How is my data handled?",
         answer:
-          "We take data protection seriously. Information you submit through our forms is validated, stored securely and used only to provide our locum matching service in line with UK GDPR. See our privacy practices or contact us for details.",
+          "Details sent through the forms are stored so we can respond, and a notification is prepared for hello@locumhands.co.uk. Please read the privacy notice. The lawful basis, how long enquiry records are kept, and which staff can open them still need to be confirmed by Locum Hands.",
       },
       {
         question: "How do I get in touch?",
         answer:
-          "You can call us, email hello@locumhands.co.uk, or use the contact form on our website. We aim to respond to all enquiries within one working day.",
+          "Call 07949 282054, email hello@locumhands.co.uk, or use the contact form. We can't promise a reply by a set time. If you need to add something to an enquiry you have already sent, quote the reference so we don't create a second one.",
       },
     ],
   },

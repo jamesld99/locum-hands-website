@@ -34,13 +34,13 @@ export function Header() {
           </span>
         </Link>
 
-        <ul className="hidden items-center gap-1 lg:flex">
+        <ul className="hidden items-center gap-0.5 lg:flex">
           {mainNav.map((item) => (
             <li key={item.href}>
               <Link
                 href={item.href}
                 aria-current={isActive(item.href) ? "page" : undefined}
-                className={`rounded-md px-3 py-2 text-sm font-medium transition-colors ${
+                className={`rounded-md px-2 py-2 text-sm font-medium whitespace-nowrap transition-colors ${
                   isActive(item.href)
                     ? "text-teal-600"
                     : "text-navy-700 hover:text-teal-600"
@@ -52,18 +52,18 @@ export function Header() {
           ))}
         </ul>
 
-        <div className="hidden items-center gap-2 lg:flex">
-          <Link
-            href="/practices#enquiry"
-            className="rounded-lg bg-teal-500 px-4 py-2 text-sm font-semibold text-white transition-colors hover:bg-teal-600"
-          >
-            Book staff
-          </Link>
+        <div className="hidden shrink-0 items-center gap-2 lg:flex">
           <Link
             href="/professionals#register"
-            className="rounded-lg border border-navy-200 px-4 py-2 text-sm font-semibold text-navy-700 transition-colors hover:bg-navy-50"
+            className="whitespace-nowrap rounded-lg bg-teal-500 px-3 py-2 text-sm font-semibold text-white transition-colors hover:bg-teal-600"
           >
-            Find work
+            Find locum work
+          </Link>
+          <Link
+            href="/practices#enquiry"
+            className="whitespace-nowrap rounded-lg border border-navy-200 px-3 py-2 text-sm font-semibold text-navy-700 transition-colors hover:bg-navy-50"
+          >
+            Enquire about cover
           </Link>
         </div>
 
@@ -106,20 +106,20 @@ export function Header() {
                 </Link>
               </li>
             ))}
-            <li className="grid grid-cols-2 gap-2 pt-3">
-              <Link
-                href="/practices#enquiry"
-                onClick={closeMenu}
-                className="rounded-lg bg-teal-500 px-4 py-2 text-center text-sm font-semibold text-white"
-              >
-                Book staff
-              </Link>
+            <li className="grid gap-2 pt-3">
               <Link
                 href="/professionals#register"
                 onClick={closeMenu}
+                className="rounded-lg bg-teal-500 px-4 py-2 text-center text-sm font-semibold text-white"
+              >
+                Find locum work
+              </Link>
+              <Link
+                href="/practices#enquiry"
+                onClick={closeMenu}
                 className="rounded-lg border border-navy-200 px-4 py-2 text-center text-sm font-semibold text-navy-700"
               >
-                Find work
+                Enquire about cover
               </Link>
             </li>
             <li className="pt-2 text-sm text-navy-500">

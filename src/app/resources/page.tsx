@@ -74,9 +74,9 @@ export default function ResourcesPage() {
 
       <CtaBand
         title="Put these guides into action"
-        description="Find flexible locum work or book reliable temporary dental staff with Locum Hands."
+        description="Find locum work, or enquire about temporary cover. An enquiry is not a confirmed booking."
         primary={{ href: "/professionals#register", label: "Find locum work" }}
-        secondary={{ href: "/practices#enquiry", label: "Book locum staff" }}
+        secondary={{ href: "/practices#enquiry", label: "Enquire about cover" }}
       />
     </>
   );

@@ -15,9 +15,9 @@ import {
 } from "@/components/icons";
 
 export const metadata: Metadata = buildPageMetadata({
-  title: "Book Temporary Dental Staff",
+  title: "Temporary Dental Staff and Cover",
   description:
-    "Book reliable, fully-vetted temporary dental staff with Locum Hands. Cover sickness, holidays and gaps with locum nurses, hygienists and dentists across the UK.",
+    "Enquire about temporary dental staff and booking cover with Locum Hands. Tell us the role and dates. Sending an enquiry does not confirm a booking.",
   path: "/practices",
 });
 
@@ -43,13 +43,13 @@ export default function PracticesPage() {
             <div>
               <Eyebrow>For dental practices</Eyebrow>
               <h1 className="mt-3 text-4xl font-bold tracking-tight text-navy-900 sm:text-5xl">
-                Book trusted temporary dental staff, fast
+                Temporary dental staff and cover for your practice
               </h1>
               <p className="mt-5 text-lg leading-relaxed text-navy-600">
-                Don&apos;t let an empty surgery cost you. Locum Hands supplies
-                pre-screened locum nurses, hygienists, therapists and dentists to
-                practices across the UK — for planned cover and last-minute
-                emergencies alike.
+                Locum Hands helps UK practices find temporary dental nurses, hygienists,
+                therapists and dentists. Tell us the dates you have in mind, including
+                any that are still tentative. An enquiry is a request to check cover,
+                not a confirmed booking.
               </p>
               <div className="mt-8 flex flex-wrap gap-3">
                 <a
@@ -70,10 +70,10 @@ export default function PracticesPage() {
               <h2 className="text-xl font-bold">Why practices choose us</h2>
               <ul className="mt-4 space-y-3">
                 {[
-                  "Every locum pre-screened and compliant",
-                  "Rapid response for last-minute sickness",
-                  "Nurses, hygienists, therapists & dentists",
-                  "Transparent pricing, no hidden fees",
+                  "Nurses, hygienists, therapists and dentists",
+                  "Planned dates and tentative dates are both welcome",
+                  "An enquiry does not confirm a booking",
+                  "The booking fee and the locum's rate are confirmed before you book",
                   "A real person to call, every time",
                 ].map((item) => (
                   <li key={item} className="flex items-start gap-3">
@@ -99,9 +99,9 @@ export default function PracticesPage() {
           <ol className="mt-12 grid gap-8 md:grid-cols-2 lg:grid-cols-4">
             {[
               { icon: PhoneIcon, title: "Tell us your needs", text: "Send a booking enquiry with the role, location, dates and duration." },
-              { icon: SparkleIcon, title: "We match", text: "We identify available, pre-screened professionals who fit your requirements." },
-              { icon: ShieldIcon, title: "We confirm", text: "We verify compliance and confirm the booking and details with you." },
-              { icon: UsersIcon, title: "They arrive ready", text: "Your locum turns up briefed and ready to deliver a full day's care." },
+              { icon: SparkleIcon, title: "We check", text: "We look at the role, the place and the dates, then tell you what may be possible." },
+              { icon: ShieldIcon, title: "We explain the documents", text: "We'll say which checks apply before anyone is booked. Requirements vary." },
+              { icon: UsersIcon, title: "You decide", text: "We confirm the locum's rate and the booking fee before you book." },
             ].map(({ icon: Icon, title, text }, i) => (
               <li key={title} className="rounded-2xl border border-navy-100 bg-white p-6 shadow-sm">
                 <div className="flex items-center gap-3">
@@ -133,10 +133,10 @@ export default function PracticesPage() {
               </p>
               <dl className="mt-8 grid gap-4 sm:grid-cols-2">
                 {[
-                  ["Dental Nurses", "Chairside support for every specialism"],
-                  ["Dental Hygienists", "Keep your hygiene book running"],
-                  ["Dental Therapists", "Maximise capacity and access"],
-                  ["Dentists", "Associate-style locum cover"],
+                  ["Dental Nurses", "Chairside cover. Places we can talk about include Devon and Cornwall, Southampton, Lancashire and Glasgow."],
+                  ["Dental Hygienists", "Hygiene cover. Places we can talk about include Hull, London, Glasgow and Edinburgh."],
+                  ["Dental Therapists", "Therapy cover, often in the same areas as hygienists, including Oxfordshire and Fife."],
+                  ["Dentists", "Locum dentist cover. Places we can talk about include Sutton and wider London."],
                 ].map(([role, sub]) => (
                   <div key={role} className="rounded-xl border border-navy-100 bg-white p-4">
                     <dt className="font-bold text-navy-900">{role}</dt>
@@ -148,12 +148,12 @@ export default function PracticesPage() {
             <div className="rounded-3xl border border-navy-100 bg-white p-8 shadow-sm">
               <ClockIcon className="h-10 w-10 text-teal-500" />
               <h3 className="mt-4 text-2xl font-bold text-navy-900">
-                Last-minute cover? We&apos;re ready.
+                Need cover at short notice?
               </h3>
               <p className="mt-3 text-navy-600">
-                Sickness doesn&apos;t give notice. When you need cover today or
-                tomorrow, we move fast to mobilise vetted staff so your list still
-                runs and your patients are looked after.
+                Tell us the date, even if it is tomorrow. We&apos;ll check who may be
+                free. We can&apos;t promise same-day cover, and sending an enquiry
+                does not confirm a booking.
               </p>
               <p className="mt-4 text-navy-600">
                 Want to plan ahead? Read our guide on{" "}
@@ -162,6 +162,25 @@ export default function PracticesPage() {
                 </InlineLink>
               </p>
             </div>
+          </div>
+        </Container>
+      </section>
+
+      <section id="areas" className="scroll-mt-24 bg-white">
+        <Container className="py-16 sm:py-20">
+          <div className="mx-auto max-w-3xl">
+            <Eyebrow>Areas we cover</Eyebrow>
+            <h2 className="mt-3 text-3xl font-bold tracking-tight text-navy-900">
+              UK coverage, checked for your dates
+            </h2>
+            <p className="mt-4 text-lg text-navy-600">
+              Locum Hands works with dental practices across England, Scotland, Wales
+              and Northern Ireland. Places we can talk about include Devon and
+              Cornwall, Southampton, Lancashire, Glasgow and London. Ask about any
+              other part of the UK and we&apos;ll check who may be free. We don&apos;t
+              keep a public office in every town, and we don&apos;t promise that a
+              particular day is free.
+            </p>
           </div>
         </Container>
       </section>
@@ -176,18 +195,18 @@ export default function PracticesPage() {
                 Tell us what you need
               </h2>
               <p className="mt-4 text-navy-600">
-                Share your requirements and we&apos;ll come back to you quickly with
-                available, fully-vetted locum staff. For urgent cover, mention the
-                date and we&apos;ll prioritise your request.
+                Share the role, the dates and the hours. You can list more than one
+                date, or say that the cover is still tentative. We&apos;ll tell you
+                whether we can help. Sending the form does not confirm a booking.
               </p>
               <ul className="mt-6 space-y-3 text-sm text-navy-700">
                 <li className="flex items-start gap-3">
                   <CheckIcon className="mt-0.5 h-5 w-5 flex-none text-teal-500" />
-                  No obligation — get a quote and availability first.
+                  We confirm the locum&apos;s rate and the booking fee before you book.
                 </li>
                 <li className="flex items-start gap-3">
                   <CheckIcon className="mt-0.5 h-5 w-5 flex-none text-teal-500" />
-                  Your details are validated and stored securely.
+                  Your details are checked and saved so we can reply.
                 </li>
                 <li className="flex items-start gap-3">
                   <CheckIcon className="mt-0.5 h-5 w-5 flex-none text-teal-500" />
@@ -205,8 +224,8 @@ export default function PracticesPage() {
       </section>
 
       <CtaBand
-        title="Need cover you can count on?"
-        description="Join the UK practices that trust Locum Hands to keep their surgeries running. Send an enquiry today."
+        title="Need to check cover?"
+        description="Tell us the role and the dates. We'll say whether we can help. An enquiry is not a booking."
         primary={{ href: "#enquiry", label: "Send a booking enquiry" }}
         secondary={{ href: "/faqs#practices", label: "Read practice FAQs" }}
       />

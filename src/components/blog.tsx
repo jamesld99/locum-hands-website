@@ -76,7 +76,7 @@ export function PostBody({ blocks }: { blocks: ContentBlock[] }) {
           case "p":
             return (
               <p key={i} className="text-lg leading-relaxed text-navy-700">
-                {block.text}
+                <RichText text={block.text} />
               </p>
             );
           case "ul":
@@ -85,7 +85,7 @@ export function PostBody({ blocks }: { blocks: ContentBlock[] }) {
                 {block.items.map((item, j) => (
                   <li key={j} className="flex items-start gap-3 text-lg text-navy-700">
                     <span className="mt-2.5 h-2 w-2 flex-none rounded-full bg-teal-500" />
-                    <span>{item}</span>
+                    <span><RichText text={item} /></span>
                   </li>
                 ))}
               </ul>
@@ -96,7 +96,7 @@ export function PostBody({ blocks }: { blocks: ContentBlock[] }) {
                 key={i}
                 className="border-l-4 border-teal-400 bg-teal-50/60 py-3 pl-5 pr-4 text-lg font-medium italic text-navy-800"
               >
-                {block.text}
+                <RichText text={block.text} />
               </blockquote>
             );
           default:
@@ -105,4 +105,18 @@ export function PostBody({ blocks }: { blocks: ContentBlock[] }) {
       })}
     </div>
   );
+}
+
+/** Turns [label](https://...) into a link. Other text stays plain. */
+function RichText({ text }: { text: string }) {
+  const parts = text.split(/(\[[^\]]+\]\(https:\/\/[^)\s]+\))/g);
+  return parts.map((part, index) => {
+    const match = part.match(/^\[([^\]]+)\]\((https:\/\/[^)\s]+)\)$/);
+    if (!match) return <span key={index}>{part}</span>;
+    return (
+      <a key={index} href={match[2]} className="font-semibold text-teal-700 underline">
+        {match[1]}
+      </a>
+    );
+  });
 }

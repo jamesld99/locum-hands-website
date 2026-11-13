@@ -34,7 +34,7 @@ export const guides: Guide[] = [
   {
     slug: "how-to-find-dental-locum-work-uk",
     title: "How to Find Dental Locum Work in the UK",
-    metaTitle: "Find Dental Locum Work UK",
+    metaTitle: "How to Find Dental Locum Work",
     description:
       "A step-by-step guide to finding dental locum work in the UK — from getting your compliance in order and choosing an agency to landing your first placement and getting booked consistently.",
     keyword: "how to find dental locum work in the UK",
@@ -50,7 +50,7 @@ export const guides: Guide[] = [
     body: [
       {
         type: "p",
-        text: "Finding dental locum work in the UK is more accessible than ever, with strong demand for dental nurses, hygienists, therapists and dentists across the country. This guide walks you through exactly how to get started and how to keep your diary full.",
+        text: "This guide is the practical starting point for every dental profession. It is not the dental-nurse decision piece, and it is not the practice guide to types of cover. If you are a dental nurse, you may also want the dental nurse locum jobs guide. If you are still weighing up whether locum work suits you, read the benefits guide.",
       },
       { type: "h2", text: "1. Get your compliance documents in order" },
       {
@@ -60,18 +60,18 @@ export const guides: Guide[] = [
       {
         type: "ul",
         items: [
-          "Current GDC (General Dental Council) registration",
-          "Valid professional indemnity cover",
-          "Enhanced DBS check",
-          "Immunisation records, including Hepatitis B status",
-          "Up-to-date CPD evidence",
-          "Proof of identity and right to work in the UK",
+          "GDC registration before you practise, where the role requires it. See the [GDC's key facts about registration](https://www.gdc-uk.org/registration/join-the-register/key-facts-about-registration)",
+          "Professional indemnity",
+          "The disclosure check that applies where you work: an enhanced DBS in England and Wales, PVG in Scotland, or AccessNI in Northern Ireland, where the role is eligible. The [BDA sets out the difference](https://www.bda.org/advice/patient-care-and-practice-safety/safeguarding-dental-patients/criminal-record-checks/)",
+          "Hepatitis B evidence where a placement requires it",
+          "CPD where it is requested, such as basic life support, medical emergencies, infection control and safeguarding",
+          "Photo ID",
         ],
       },
       { type: "h3", text: "Tip: keep a digital folder" },
       {
         type: "p",
-        text: "Store scanned copies of every document in one place so you can respond to booking requests instantly. A good agency will help you keep these current.",
+        text: "Keep your own copies somewhere you can find them. Locum Hands does not ask you to upload them on the registration form. We'll explain how to share anything a placement needs.",
       },
       { type: "h2", text: "2. Decide what kind of locum work you want" },
       {
@@ -81,7 +81,7 @@ export const guides: Guide[] = [
       { type: "h2", text: "3. Register with a dedicated dental locum agency" },
       {
         type: "p",
-        text: "The fastest, most reliable route to consistent work is registering with a specialist dental locum agency. A good agency matches you with suitable practices, handles the booking admin and chases timesheets so you get paid promptly.",
+        text: "Registering with a specialist dental locum agency is one way to hear about work. A good agency talks through the role, the place and the rate before you decide. It cannot promise a full diary.",
       },
       {
         type: "quote",
@@ -104,7 +104,7 @@ export const guides: Guide[] = [
       { type: "h2", text: "5. Understand pay and tax" },
       {
         type: "p",
-        text: "Locum rates vary by role, experience, location and how urgently cover is needed. Many locums work on a self-employed basis, so speak to an accountant about the right structure, set money aside for tax, and keep clean records of bookings and expenses.",
+        text: "You set your own locum rate. We'll discuss it with the dental practice and negotiate with the aim of staying close to the usual rates for your role in that area. You'll know the agreed rate before you decide whether to accept the booking. Many locums work on a self-employed basis, so speak to an accountant about the right structure, set money aside for tax, and keep clean records of bookings and expenses.",
       },
       { type: "h2", text: "Start finding dental locum work today" },
       {
@@ -118,7 +118,7 @@ export const guides: Guide[] = [
     title: "The Benefits of Working as a Dental Locum",
     metaTitle: "Benefits of Dental Locum Work",
     description:
-      "Thinking about locum work? Discover the real benefits of working as a dental locum in the UK — flexibility, higher earning potential, variety and control over your career.",
+      "Thinking about locum work? Discover the real benefits of working as a dental locum in the UK — flexibility, variety and control over your days.",
     keyword: "benefits of working as a dental locum",
     audience: "professionals",
     readingTime: 6,
@@ -128,17 +128,17 @@ export const guides: Guide[] = [
     body: [
       {
         type: "p",
-        text: "Locum work has transformed how dental professionals build their careers. Whether you're a dental nurse, hygienist, therapist or dentist, going locum offers freedom that a single permanent role rarely matches. Here are the biggest benefits.",
+        text: "This page is about whether locum work suits you. The step-by-step version, including documents and how to register, is the guide to finding dental locum work. Dental nurses who want the trade-offs of that role can also read Dental locum nursing explained.",
       },
       { type: "h2", text: "1. Genuine flexibility" },
       {
         type: "p",
         text: "You choose the days, hours and locations that suit you. Locum work fits beautifully around parenting, study, another role or simply a better work-life balance. Accept the bookings you want and decline the ones you don't.",
       },
-      { type: "h2", text: "2. Strong earning potential" },
+      { type: "h2", text: "2. A rate you agree before you accept" },
       {
         type: "p",
-        text: "Locum rates are often higher than permanent equivalents, and short-notice or weekend cover can attract premium rates. With control over how much you work, you can scale your income up or down to suit your goals.",
+        text: "You set your own locum rate. We'll discuss it with the dental practice and negotiate with the aim of staying close to the usual rates for your role in that area. You'll know the agreed rate before you decide whether to accept the booking. With control over how much you work, you can scale your days up or down.",
       },
       { type: "h2", text: "3. Variety and experience" },
       {
@@ -163,7 +163,7 @@ export const guides: Guide[] = [
       { type: "h2", text: "Ready to enjoy the benefits?" },
       {
         type: "p",
-        text: "Register with Locum Hands to find flexible, well-paid dental locum work across the UK, backed by a team that genuinely supports you.",
+        text: "Register with Locum Hands to find flexible dental locum work across the UK, with a team you can actually talk to.",
       },
     ],
   },
@@ -172,7 +172,7 @@ export const guides: Guide[] = [
     title: "Why Dental Practices Choose Locum Agencies",
     metaTitle: "Why Practices Choose Locum Agencies",
     description:
-      "Discover why UK dental practices rely on locum agencies to cover staff shortages — faster cover, guaranteed compliance, reduced admin and protected revenue.",
+      "Why a dental practice might use a locum agency: one place to ask about cover, a conversation about documents, and less of the search. This is not a promise of same-day staff.",
     keyword: "why dental practices choose locum agencies",
     audience: "practices",
     readingTime: 6,
@@ -190,25 +190,25 @@ export const guides: Guide[] = [
       { type: "h2", text: "1. Faster cover, even at short notice" },
       {
         type: "p",
-        text: "A dedicated agency maintains a pool of available, pre-screened professionals. Instead of scrambling through contacts when someone calls in sick, you make one call and the agency mobilises cover — often the same or next day.",
+        text: "An agency gives you one place to ask. Tell them the date, including a short-notice date, and they can check who may be free. That is not the same as same-day or next-day cover, and it does not confirm a booking.",
       },
       { type: "h2", text: "2. Compliance you can trust" },
       {
         type: "p",
-        text: "Reputable agencies vet every professional before they set foot in your surgery:",
+        text: "Before someone practises, a practice needs to be clear about the documents that apply. These commonly include:",
       },
       {
         type: "ul",
         items: [
-          "Verified GDC registration",
-          "Current indemnity insurance",
-          "Enhanced DBS checks",
-          "Immunisation status and references",
+          "GDC registration before the person practises",
+          "Professional indemnity",
+          "The disclosure check that applies: enhanced DBS in England and Wales, PVG in Scotland, or AccessNI in Northern Ireland, where the role is eligible",
+          "Hepatitis B evidence where the placement requires it",
         ],
       },
       {
         type: "p",
-        text: "That means you welcome locum staff knowing the paperwork is already handled and your patients are safe.",
+        text: "Locum Hands explains how to share those documents securely. The enquiry form does not collect them, and a booking waits until the details are agreed.",
       },
       { type: "h2", text: "3. Less admin for your team" },
       {
@@ -228,7 +228,7 @@ export const guides: Guide[] = [
       { type: "h2", text: "Partner with Locum Hands" },
       {
         type: "p",
-        text: "Locum Hands supplies vetted, reliable locum nurses, hygienists, therapists and dentists to practices across the UK. Send a booking enquiry and see the difference a dedicated agency makes.",
+        text: "Locum Hands introduces locum nurses, hygienists, therapists and dentists to practices across the UK. Send a booking enquiry and we'll check the dates. That enquiry does not confirm a booking.",
       },
     ],
   },
@@ -250,7 +250,7 @@ export const guides: Guide[] = [
     body: [
       {
         type: "p",
-        text: "Temporary dental staffing keeps practices running when the unexpected happens — and helps you plan confidently around the predictable. This guide explains the options and how to get the most from them.",
+        text: "This guide is about the kinds of temporary cover a practice might use, and how to brief someone on the day. The companion article on covering shortages is the shorter planning piece. Neither page promises that a particular day can be filled.",
       },
       { type: "h2", text: "What are temporary dental staffing solutions?" },
       {
@@ -290,7 +290,7 @@ export const guides: Guide[] = [
         items: [
           "How do you vet and verify your professionals?",
           "How quickly can you provide last-minute cover?",
-          "Are your rates transparent with no hidden fees?",
+          "Will you confirm the locum's rate and the booking fee before we book?",
           "Do you cover my location and the roles I need?",
         ],
       },

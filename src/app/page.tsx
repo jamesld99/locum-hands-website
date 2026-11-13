@@ -18,9 +18,9 @@ import { getAllPosts, formatDate } from "@/lib/blog";
 import { buildPageMetadata } from "@/lib/seo";
 
 export const metadata: Metadata = buildPageMetadata({
-  title: "UK Dental Locum Agency",
+  title: "UK Dental Locum Agency and Recruitment",
   description:
-    "Locum Hands connects dental nurses, hygienists and dentists with UK practices. Find flexible locum work or book reliable, fully-vetted temporary dental staff.",
+    "Locum Hands is a UK dental locum agency and recruitment service for dental nurses, hygienists, therapists and dentists, and for practices booking temporary cover.",
   path: "/",
 });
 
@@ -30,25 +30,22 @@ export default function HomePage() {
   return (
     <>
       {/* Hero */}
-      <section className="relative overflow-hidden bg-gradient-to-br from-navy-800 via-navy-700 to-teal-700">
-        <div className="absolute inset-0 opacity-10" aria-hidden="true">
-          <div className="absolute -right-24 top-10 h-96 w-96 rounded-full bg-teal-300 blur-3xl" />
-          <div className="absolute -left-24 bottom-0 h-80 w-80 rounded-full bg-navy-400 blur-3xl" />
-        </div>
-        <Container className="relative py-20 sm:py-28">
+      <section className="bg-gradient-to-br from-navy-800 via-navy-700 to-teal-700">
+        <Container className="py-20 sm:py-28">
           <div className="grid items-center gap-12 lg:grid-cols-2">
             <div>
               <span className="inline-flex items-center gap-2 rounded-full bg-white/10 px-3 py-1 text-sm font-medium text-teal-100 ring-1 ring-inset ring-white/20">
                 <MapPinIcon className="h-4 w-4" />
-                UK-wide dental locum agency
+                UK dental locum agency and recruitment
               </span>
               <h1 className="mt-5 text-4xl font-bold leading-tight tracking-tight text-white sm:text-5xl lg:text-6xl">
-                The right dental hands, <span className="text-teal-300">exactly when you need them.</span>
+                A UK dental locum agency for the days you need cover.
               </h1>
               <p className="mt-6 max-w-xl text-lg leading-relaxed text-navy-100">
-                Locum Hands connects dental nurses, hygienists, therapists and
-                dentists with practices across the United Kingdom. Flexible work for
-                professionals, reliable cover for practices.
+                Locum Hands introduces dental nurses, hygienists, therapists and
+                dentists to practices across the United Kingdom. Find locum work,
+                or enquire about temporary cover. Nothing is booked until you have
+                agreed the details.
               </p>
               <div className="mt-8 flex flex-col gap-3 sm:flex-row">
                 <ButtonLink href="/professionals#register" variant="primary">
@@ -59,13 +56,13 @@ export default function HomePage() {
                   variant="outline"
                   className="!border-white/30 !bg-white/10 !text-white hover:!bg-white/20"
                 >
-                  Book locum staff
+                  Enquire about cover
                 </ButtonLink>
               </div>
               <dl className="mt-10 grid max-w-md grid-cols-3 gap-6">
                 <Stat value="UK-wide" label="Coverage" />
                 <Stat value="4 roles" label="Nurses to dentists" />
-                <Stat value="Fast" label="Cover, even last-minute" />
+                <Stat value="Personal" label="A real person to talk to" />
               </dl>
             </div>
 
@@ -90,10 +87,10 @@ export default function HomePage() {
         <Container className="py-8">
           <ul className="grid grid-cols-2 gap-6 text-center sm:grid-cols-4">
             {[
-              { icon: ShieldIcon, text: "Fully vetted & compliant" },
-              { icon: ClockIcon, text: "Rapid, reliable cover" },
-              { icon: WalletIcon, text: "Fair, transparent rates" },
-              { icon: HeartIcon, text: "Genuine, human support" },
+              { icon: ShieldIcon, text: "Documents explained for each placement" },
+              { icon: ClockIcon, text: "Tell us the dates and we'll check" },
+              { icon: WalletIcon, text: "Rates agreed before you book" },
+              { icon: HeartIcon, text: "A real person to talk to" },
             ].map(({ icon: Icon, text }) => (
               <li key={text} className="flex flex-col items-center gap-2 text-navy-700">
                 <Icon className="h-7 w-7 text-teal-500" />
@@ -117,25 +114,25 @@ export default function HomePage() {
             <AudienceCard
               tag="For professionals"
               title="Find flexible dental locum work"
-              description="Choose where and when you work, earn competitive rates and let us handle the admin. Perfect for dental nurses, hygienists, therapists and dentists."
+              description="Dental locum work for nurses, hygienists, therapists and dentists. Tell us where you want to work and the kind of bookings you are looking for."
               points={[
                 "Work that fits around your life",
-                "Competitive, transparent pay",
-                "Compliance support, sorted",
-                "Placements near you, UK-wide",
+                "You know the agreed rate before you accept",
+                "We'll explain which documents a placement needs",
+                "Locations across the UK",
               ]}
               cta={{ href: "/professionals#register", label: "Register as a professional" }}
               accent="teal"
             />
             <AudienceCard
               tag="For practices"
-              title="Book trusted temporary dental staff"
-              description="Cover holidays, sickness and sudden gaps with pre-screened locums. Planned cover or last-minute emergencies — we keep your surgery running."
+              title="Enquire about temporary dental cover"
+              description="Temporary dental staff for holidays, sickness and other gaps. Tell us the dates, even if they are still tentative. An enquiry is not a confirmed booking."
               points={[
-                "Vetted, compliant professionals",
-                "Fast cover, even at short notice",
-                "Nurses, hygienists, therapists & dentists",
-                "No downtime, no lost revenue",
+                "Nurses, hygienists, therapists and dentists",
+                "Planned cover and short-notice requests",
+                "The booking fee is confirmed before you book",
+                "An enquiry is not a confirmed booking",
               ]}
               cta={{ href: "/practices#enquiry", label: "Send a booking enquiry" }}
               accent="navy"
@@ -150,10 +147,10 @@ export default function HomePage() {
           <div className="mx-auto max-w-2xl text-center">
             <Eyebrow>How it works</Eyebrow>
             <h2 className="mt-3 text-3xl font-bold tracking-tight text-navy-900 sm:text-4xl">
-              Simple, fast and reliable
+              Tell us, talk it through, then decide
             </h2>
             <p className="mt-4 text-lg text-navy-600">
-              Three straightforward steps to flexible work or dependable cover.
+              Three steps. You see the details before anything is agreed.
             </p>
           </div>
           <ol className="mt-12 grid gap-8 md:grid-cols-3">
@@ -166,14 +163,14 @@ export default function HomePage() {
             <Step
               n={2}
               icon={SparkleIcon}
-              title="We match you"
-              text="We pair the right pre-screened professional with the right placement, based on role, location and availability."
+              title="We talk it through"
+              text="We look at the role, the place and the dates, then come back to you. An enquiry is not a booking."
             />
             <Step
               n={3}
               icon={CalendarIcon}
-              title="Get to work"
-              text="Confirm the details and you're set. We handle the admin so professionals and practices can focus on patients."
+              title="Agree the details"
+              text="You see the rate and the arrangements before you decide. We help with the practical side once both sides are happy."
             />
           </ol>
         </Container>
@@ -189,15 +186,15 @@ export default function HomePage() {
                 A dental locum agency that actually cares
               </h2>
               <p className="mt-4 text-lg text-navy-600">
-                We treat clinicians and practices as partners, not numbers. That
-                means honest rates, real human support and a relentless focus on
-                getting the match right.
+                We treat clinicians and practices as people we can talk to. You
+                hear the agreed rate before a booking goes ahead, and you can
+                reach a real person when something changes.
               </p>
               <ul className="mt-8 space-y-4">
                 {[
                   "UK-wide coverage across England, Scotland, Wales and Northern Ireland",
-                  "Every professional pre-screened for GDC registration, indemnity and DBS",
-                  "Transparent rates with no hidden deductions",
+                  "We'll explain the GDC registration, indemnity and disclosure check a placement needs",
+                  "You know the agreed rate before you accept a booking",
                   "A dedicated team you can actually reach",
                 ].map((item) => (
                   <li key={item} className="flex items-start gap-3">
@@ -209,15 +206,15 @@ export default function HomePage() {
                 ))}
               </ul>
               <div className="mt-8">
-                <InlineLink href="/about">Read the Locum Hands story</InlineLink>
+                <InlineLink href="/about">Meet Liset</InlineLink>
                 {" · "}
                 <InlineLink href="/resources">Browse our guides</InlineLink>
               </div>
             </div>
             <div className="grid gap-4 sm:grid-cols-2">
-              <FeatureTile icon={ShieldIcon} title="Compliance first" text="GDC, indemnity, DBS and immunisation checks as standard." />
-              <FeatureTile icon={ClockIcon} title="Fast response" text="Last-minute sickness? We move quickly to cover your list." />
-              <FeatureTile icon={MapPinIcon} title="Local knowledge" text="Real understanding of practices and locums in your area." />
+              <FeatureTile icon={ShieldIcon} title="Clear about documents" text="Requirements vary by role and by country in the UK. We'll explain what to share." />
+              <FeatureTile icon={ClockIcon} title="Dates you can talk through" text="Tell us if cover is planned or still tentative. We can't promise same-day cover." />
+              <FeatureTile icon={MapPinIcon} title="UK-wide" text="Ask us about the place and the dates. We'll check who may be free." />
               <FeatureTile icon={HeartIcon} title="People-first" text="Supportive, straightforward and always on your side." />
             </div>
           </div>
@@ -262,9 +259,9 @@ export default function HomePage() {
 
       <CtaBand
         title="Ready to get started?"
-        description="Join the UK dental community that puts the right hands in the right place. Register for work or book staff in minutes."
+        description="Register for locum work, or send a cover enquiry. Nothing is booked until the details are agreed."
         primary={{ href: "/professionals#register", label: "Find locum work" }}
-        secondary={{ href: "/practices#enquiry", label: "Book locum staff" }}
+        secondary={{ href: "/practices#enquiry", label: "Enquire about cover" }}
       />
     </>
   );

@@ -4,6 +4,7 @@ import { Breadcrumbs, CtaBand, InlineLink } from "@/components/sections";
 import { JsonLd } from "@/components/JsonLd";
 import { breadcrumbSchema } from "@/lib/schema";
 import { ProfessionalForm } from "@/components/forms/ProfessionalForm";
+import { professionalPayWording } from "@/lib/copy";
 import { buildPageMetadata } from "@/lib/seo";
 import {
   CalendarIcon,
@@ -17,7 +18,7 @@ import {
 export const metadata: Metadata = buildPageMetadata({
   title: "Find Dental Locum Work UK",
   description:
-    "Register with Locum Hands for dental nurse locum jobs, hygienist work and dentist placements across the UK. Flexible hours, competitive pay and compliance support.",
+    "Find dental locum work with Locum Hands. Register your interest for dental nurse, hygienist, therapist or dentist bookings across the UK.",
   path: "/professionals",
 });
 
@@ -29,13 +30,13 @@ const benefits = [
   },
   {
     icon: WalletIcon,
-    title: "Competitive, transparent pay",
-    text: "Know exactly what you'll earn, with fair rates and no hidden deductions — plus premiums for short-notice cover.",
+    title: "You agree the rate first",
+    text: "You set your locum rate. You'll know the agreed rate before you decide whether to accept a booking.",
   },
   {
     icon: ShieldIcon,
     title: "Compliance made easy",
-    text: "We help keep your GDC registration, indemnity, DBS and immunisation records organised so you're always ready.",
+    text: "We'll explain which documents a placement needs, including GDC evidence where it applies, and how to share them securely.",
   },
   {
     icon: MapPinIcon,
@@ -100,10 +101,10 @@ export default function ProfessionalsPage() {
               <h2 className="text-xl font-bold">Roles we place</h2>
               <ul className="mt-4 space-y-3">
                 {[
-                  ["Dental Nurses", "From newly qualified to highly experienced"],
-                  ["Dental Hygienists", "NHS and private placements"],
-                  ["Dental Therapists", "Make the most of your full scope"],
-                  ["Dentists", "Associate-style locum cover, UK-wide"],
+                  ["Dental Nurses", "Places we can talk about include Devon and Cornwall, Southampton, Lancashire and Glasgow"],
+                  ["Dental Hygienists", "Places we can talk about include Hull, London, Glasgow and Edinburgh"],
+                  ["Dental Therapists", "Often alongside hygienist cover, including Oxfordshire and Fife"],
+                  ["Dentists", "Places we can talk about include Sutton and wider London"],
                 ].map(([role, sub]) => (
                   <li key={role} className="flex items-start gap-3">
                     <CheckIcon className="mt-1 h-5 w-5 flex-none text-teal-300" />
@@ -134,6 +135,7 @@ export default function ProfessionalsPage() {
               The benefits of locum work, made simple
             </h2>
           </div>
+          <p className="mx-auto mt-6 max-w-3xl text-center text-lg text-navy-700">{professionalPayWording}</p>
           <div className="mt-12 grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
             {benefits.map(({ icon: Icon, title, text }) => (
               <div key={title} className="rounded-2xl border border-navy-100 bg-white p-6 shadow-sm">
@@ -158,18 +160,18 @@ export default function ProfessionalsPage() {
                 Join in minutes
               </h2>
               <p className="mt-4 text-navy-600">
-                Fill in your details and our team will verify your information and be
-                in touch about suitable bookings. It&apos;s free, and you&apos;re never
-                under any obligation to accept a placement.
+                Tell us a little about you. It&apos;s free, and you don&apos;t have to
+                accept a placement. We&apos;ll explain any documents a placement needs
+                afterwards.
               </p>
               <ul className="mt-6 space-y-3 text-sm text-navy-700">
                 <li className="flex items-start gap-3">
                   <CheckIcon className="mt-0.5 h-5 w-5 flex-none text-teal-500" />
-                  We&apos;ll only use your details to match you with locum work.
+                  We&apos;ll use what you send to reply and to talk about possible locum work.
                 </li>
                 <li className="flex items-start gap-3">
                   <CheckIcon className="mt-0.5 h-5 w-5 flex-none text-teal-500" />
-                  Your data is validated and stored securely.
+                  Your details are checked and saved so we can reply.
                 </li>
                 <li className="flex items-start gap-3">
                   <CheckIcon className="mt-0.5 h-5 w-5 flex-none text-teal-500" />
@@ -179,7 +181,26 @@ export default function ProfessionalsPage() {
             </div>
             <div className="lg:col-span-3">
               <div className="rounded-3xl border border-navy-100 bg-white p-6 shadow-sm sm:p-8">
-                <ProfessionalForm />
+                <h3 className="text-xl font-bold text-navy-900">What to have ready before you register</h3>
+                <p className="mt-2 text-sm text-navy-600">
+                  You don&apos;t need to upload anything here, and we don&apos;t ask medical questions.
+                  Requirements depend on the role and the placement. After you register, Locum Hands
+                  will get in touch about securely sharing any documents that are needed.
+                </p>
+                <ul className="mt-4 list-disc space-y-1 pl-5 text-sm text-navy-700">
+                  <li>A current CV</li>
+                  <li>GDC number or evidence, where it applies</li>
+                  <li>Professional indemnity</li>
+                  <li>The relevant disclosure check, such as an enhanced DBS, PVG in Scotland or AccessNI in Northern Ireland</li>
+                  <li>Photo ID</li>
+                  <li>Hepatitis B evidence, where a placement requires it</li>
+                  <li>Qualifications and any additional certificates</li>
+                  <li>CPD, where it is requested. Examples include basic life support, medical emergencies, infection control and safeguarding</li>
+                  <li>A cover letter, if you would like to include one</li>
+                </ul>
+                <div className="mt-8">
+                  <ProfessionalForm />
+                </div>
               </div>
             </div>
           </div>

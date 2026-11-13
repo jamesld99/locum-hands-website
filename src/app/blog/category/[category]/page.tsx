@@ -90,10 +90,10 @@ export default async function CategoryPage({
       </section>
 
       <CtaBand
-        title="Find work or book staff today"
+        title="Find work or enquire about cover"
         description="Locum Hands connects dental professionals and practices across the United Kingdom."
         primary={{ href: "/professionals#register", label: "Find locum work" }}
-        secondary={{ href: "/practices#enquiry", label: "Book locum staff" }}
+        secondary={{ href: "/practices#enquiry", label: "Enquire about cover" }}
       />
     </>
   );

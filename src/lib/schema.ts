@@ -34,6 +34,7 @@ export function organizationSchema() {
       "@type": "Person",
       name: siteConfig.founder.name,
       jobTitle: siteConfig.founder.role,
+      image: `${siteConfig.url}${siteConfig.founder.photo}`,
     },
     contactPoint: {
       "@type": "ContactPoint",
@@ -72,14 +73,10 @@ export function localBusinessSchema() {
     url: siteConfig.url,
     telephone: siteConfig.phone,
     email: siteConfig.email,
-    priceRange: "££",
     description: siteConfig.description,
     address: {
       "@type": "PostalAddress",
-      streetAddress: siteConfig.registeredOffice.streetAddress,
-      addressLocality: siteConfig.registeredOffice.addressLocality,
-      postalCode: siteConfig.registeredOffice.postalCode,
-      addressCountry: siteConfig.registeredOffice.addressCountry,
+      addressCountry: siteConfig.address.addressCountry,
     },
     areaServed: {
       "@type": "Country",
@@ -156,10 +153,19 @@ export function articleSchema(post: {
     description: post.description,
     datePublished: post.date,
     dateModified: post.updated ?? post.date,
-    author: {
-      "@type": "Organization",
-      name: post.author,
-    },
+    author:
+      post.author === siteConfig.founder.name
+        ? {
+            "@type": "Person",
+            name: post.author,
+            jobTitle: "Locum dental nurse and founder",
+            url: `${siteConfig.url}/about`,
+          }
+        : {
+            "@type": "Organization",
+            name: post.author,
+            url: siteConfig.url,
+          },
     publisher: { "@id": `${siteConfig.url}/#organization` },
     mainEntityOfPage: {
       "@type": "WebPage",

@@ -8,7 +8,7 @@ export const siteConfig = {
   shortName: "Locum Hands",
   legalName: "LOCUM HANDS LTD",
   description:
-    "Locum Hands Ltd is a UK-wide dental locum agency connecting dental nurses, hygienists and dentists with dental practices that need reliable temporary staff.",
+    "Locum Hands Ltd is a UK-wide dental locum agency and recruitment service for dental nurses, hygienists, therapists and dentists, and for practices that need temporary cover.",
   // Primary production URL (matches Vercel: www is production, apex redirects here).
   url: "https://www.locumhands.co.uk",
   locale: "en_GB",
@@ -37,7 +37,7 @@ export const siteConfig = {
   foundingYear: "2026",
   founder: {
     name: "Liset Hernandez",
-    role: "Owner & Founder",
+    role: "Locum dental nurse and founder",
     photo: "/images/liset-hernandez.png",
   },
   social: {
@@ -54,8 +54,8 @@ export type NavItem = {
 
 export const mainNav: NavItem[] = [
   { href: "/professionals", label: "For Professionals", description: "Find dental locum work across the UK" },
-  { href: "/practices", label: "For Practices", description: "Book trusted temporary dental staff" },
-  { href: "/about", label: "About", description: "The Locum Hands story" },
+  { href: "/practices", label: "For Practices", description: "Enquire about temporary dental staff and cover" },
+  { href: "/about", label: "About", description: "Meet Liset Hernandez" },
   { href: "/resources", label: "Resources", description: "Guides for dental locums and practices" },
   { href: "/blog", label: "Blog", description: "News and tips for dental locums and practices" },
   { href: "/faqs", label: "FAQs", description: "Answers for professionals and practices" },
@@ -71,7 +71,7 @@ export const footerNav = {
     { href: "/faqs#professionals", label: "Professional FAQs" },
   ],
   practices: [
-    { href: "/practices", label: "Book locum staff" },
+    { href: "/practices", label: "Enquire about cover" },
     { href: "/practices#how-it-works", label: "How it works" },
     { href: "/resources/guide-to-temporary-dental-staffing-solutions", label: "Temporary staffing guide" },
     { href: "/blog/category/for-practices", label: "Staffing insights" },
@@ -83,5 +83,6 @@ export const footerNav = {
     { href: "/blog", label: "Blog" },
     { href: "/contact", label: "Contact" },
     { href: "/faqs", label: "FAQs" },
+    { href: "/privacy", label: "Privacy notice" },
   ],
 };

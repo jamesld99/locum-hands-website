@@ -1,7 +1,14 @@
 "use client";
 
-import { useState } from "react";
-import { professionalSchema } from "@/lib/validations";
+import Link from "next/link";
+import {
+  availabilityOptions,
+  experienceOptions,
+  professionOptions,
+  professionalSchema,
+  workSoughtOptions,
+} from "@/lib/validations";
+import { siteConfig } from "@/lib/site";
 import {
   CheckboxField,
   FormStatus,
@@ -10,182 +17,147 @@ import {
   TextAreaField,
   TextField,
 } from "./fields";
-
-type Status = "idle" | "submitting" | "success" | "error";
-type Errors = Record<string, string>;
+import { useEnquiryForm } from "./useEnquiryForm";
 
 export function ProfessionalForm() {
-  const [status, setStatus] = useState<Status>("idle");
-  const [errors, setErrors] = useState<Errors>({});
+  const form = useEnquiryForm({
+    schema: professionalSchema,
+    endpoint: "/api/professionals",
+    fieldOrder: [
+      "fullName",
+      "email",
+      "phone",
+      "professionType",
+      "professionOther",
+      "gdcNumber",
+      "experienceLevel",
+      "availability",
+      "locationPreferences",
+      "workSought",
+      "message",
+      "consent",
+    ],
+    buildPayload: (element) => {
+      const data = new FormData(element);
+      return {
+        fullName: String(data.get("fullName") ?? ""),
+        email: String(data.get("email") ?? ""),
+        phone: String(data.get("phone") ?? ""),
+        professionType: String(data.get("professionType") ?? ""),
+        professionOther: String(data.get("professionOther") ?? ""),
+        gdcNumber: String(data.get("gdcNumber") ?? ""),
+        experienceLevel: String(data.get("experienceLevel") ?? ""),
+        availability: String(data.get("availability") ?? ""),
+        locationPreferences: String(data.get("locationPreferences") ?? ""),
+        workSought: String(data.get("workSought") ?? ""),
+        message: String(data.get("message") ?? ""),
+        consent: data.get("consent") === "on",
+      };
+    },
+  });
 
-  async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
-    e.preventDefault();
-    setErrors({});
-    const form = e.currentTarget;
-    const fd = new FormData(form);
-    const payload = {
-      fullName: String(fd.get("fullName") ?? ""),
-      email: String(fd.get("email") ?? ""),
-      phone: String(fd.get("phone") ?? ""),
-      professionType: String(fd.get("professionType") ?? ""),
-      experienceLevel: String(fd.get("experienceLevel") ?? ""),
-      locationPreferences: String(fd.get("locationPreferences") ?? ""),
-      availability: String(fd.get("availability") ?? ""),
-      message: String(fd.get("message") ?? ""),
-      consent: fd.get("consent") === "on",
-      website: String(fd.get("website") ?? ""),
-    };
-
-    const parsed = professionalSchema.safeParse(payload);
-    if (!parsed.success) {
-      const fieldErrors: Errors = {};
-      for (const issue of parsed.error.issues) {
-        const key = String(issue.path[0]);
-        if (!fieldErrors[key]) fieldErrors[key] = issue.message;
-      }
-      setErrors(fieldErrors);
-      return;
-    }
-
-    setStatus("submitting");
-    try {
-      const res = await fetch("/api/professionals", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(parsed.data),
-      });
-      if (!res.ok) throw new Error("Request failed");
-      setStatus("success");
-      form.reset();
-    } catch {
-      setStatus("error");
-    }
-  }
-
-  if (status === "success") {
+  if (form.status === "success") {
     return (
       <FormStatus
         status="success"
-        successTitle="Thanks for registering!"
-        successMessage="We've received your details. Our team will verify your information and be in touch about suitable locum bookings shortly."
+        successTitle="Registration received"
+        successMessage={`We have your details. Reference ${form.reference}. We'll be in touch about any documents a placement needs. Nothing has been booked yet. If you need to add something, call ${siteConfig.phoneDisplay} or email ${siteConfig.email} and quote the reference.`}
+        onAnother={form.startAnother}
+        anotherLabel="Register another person"
       />
     );
   }
 
   return (
-    <form onSubmit={handleSubmit} noValidate className="relative space-y-5">
+    <form
+      onSubmit={form.handleSubmit}
+      noValidate
+      aria-busy={form.status === "submitting"}
+      className="relative space-y-5"
+    >
       <Honeypot />
+      <FieldSummary id={form.summaryId} errors={form.errors} />
       <div className="grid gap-5 sm:grid-cols-2">
-        <TextField
-          id="fullName"
-          label="Full name"
-          required
-          autoComplete="name"
-          error={errors.fullName}
-          placeholder="Jane Smith"
-        />
-        <TextField
-          id="email"
-          label="Email address"
-          type="email"
-          required
-          autoComplete="email"
-          error={errors.email}
-          placeholder="jane@example.com"
-        />
-        <TextField
-          id="phone"
-          label="Phone number"
-          type="tel"
-          required
-          autoComplete="tel"
-          error={errors.phone}
-          placeholder="07700 900000"
-        />
-        <SelectField
-          id="professionType"
-          label="Profession"
-          required
-          defaultValue=""
-          error={errors.professionType}
-        >
-          <option value="" disabled>
-            Select your role
-          </option>
-          <option value="nurse">Dental Nurse</option>
-          <option value="hygienist">Dental Hygienist</option>
-          <option value="therapist">Dental Therapist</option>
-          <option value="dentist">Dentist</option>
+        <TextField id="fullName" label="Full name" required autoComplete="name" error={form.errors.fullName} placeholder="Jane Smith" />
+        <TextField id="email" label="Email address" type="email" required autoComplete="email" error={form.errors.email} placeholder="jane@example.com" />
+        <TextField id="phone" label="Telephone" type="tel" required autoComplete="tel" error={form.errors.phone} placeholder="07700 900000" />
+        <SelectField id="professionType" label="Profession" required defaultValue="" error={form.errors.professionType}>
+          <option value="" disabled>Select your role</option>
+          {professionOptions.map((option) => (
+            <option key={option.value} value={option.value}>{option.label}</option>
+          ))}
         </SelectField>
-        <SelectField
-          id="experienceLevel"
-          label="Experience level"
-          required
-          defaultValue=""
-          error={errors.experienceLevel}
-        >
-          <option value="" disabled>
-            Select experience
-          </option>
-          <option value="newly-qualified">Newly qualified</option>
-          <option value="1-3-years">1–3 years</option>
-          <option value="3-5-years">3–5 years</option>
-          <option value="5-plus-years">5+ years</option>
+        <TextField
+          id="professionOther"
+          label="If another role, which one?"
+          error={form.errors.professionOther}
+          hint="Leave this blank unless you chose another dental role."
+          placeholder="For example, orthodontic therapist"
+        />
+        <TextField
+          id="gdcNumber"
+          label="GDC number"
+          error={form.errors.gdcNumber}
+          hint="Add this if you have one. You can register without it and send evidence later."
+          placeholder="If you have one"
+        />
+        <SelectField id="experienceLevel" label="Experience" required defaultValue="" error={form.errors.experienceLevel}>
+          <option value="" disabled>Select experience</option>
+          {experienceOptions.map((option) => (
+            <option key={option.value} value={option.value}>{option.label}</option>
+          ))}
         </SelectField>
-        <SelectField
-          id="availability"
-          label="Availability"
-          required
-          defaultValue=""
-          error={errors.availability}
-        >
-          <option value="" disabled>
-            Select availability
-          </option>
-          <option value="immediately">Immediately</option>
-          <option value="within-2-weeks">Within 2 weeks</option>
-          <option value="within-a-month">Within a month</option>
-          <option value="flexible">Flexible</option>
+        <SelectField id="availability" label="Availability" required defaultValue="" error={form.errors.availability}>
+          <option value="" disabled>Select availability</option>
+          {availabilityOptions.map((option) => (
+            <option key={option.value} value={option.value}>{option.label}</option>
+          ))}
         </SelectField>
       </div>
-
       <TextField
         id="locationPreferences"
-        label="Location preferences"
+        label="Preferred work locations"
         required
-        error={errors.locationPreferences}
-        hint="Towns, cities or regions you'd like to work in (e.g. Manchester, North West)."
+        error={form.errors.locationPreferences}
+        hint="Towns, cities or regions. For example, Manchester and the North West."
         placeholder="Manchester, Stockport, North West"
       />
-
+      <SelectField id="workSought" label="Type of work sought" required defaultValue="" error={form.errors.workSought}>
+        <option value="" disabled>Select the type of work</option>
+        {workSoughtOptions.map((option) => (
+          <option key={option.value} value={option.value}>{option.label}</option>
+        ))}
+      </SelectField>
       <TextAreaField
         id="message"
-        label="Anything else? (optional)"
-        error={errors.message}
-        placeholder="Tell us about your specialisms, preferred days, or any questions."
+        label="Additional information (optional)"
+        error={form.errors.message}
+        placeholder="Preferred days, or anything else we should know. Please don't include medical information."
       />
-
-      <CheckboxField id="consent" error={errors.consent} required>
-        I agree to Locum Hands storing and processing my details to match me with
-        locum opportunities, in line with the privacy policy.
+      <CheckboxField id="consent" error={form.errors.consent} required>
+        I have read the <Link href="/privacy" className="font-semibold text-teal-700 underline">privacy notice</Link> and
+        I am happy for Locum Hands to use these details to respond to this registration.
       </CheckboxField>
-
-      {status === "error" && (
-        <FormStatus
-          status="error"
-          successTitle=""
-          successMessage=""
-          errorMessage="We couldn't submit your registration. Please try again or email hello@locumhands.co.uk."
-        />
+      {form.status === "error" && (
+        <FormStatus status="error" successTitle="" successMessage="" errorMessage={form.message} />
       )}
-
       <button
         type="submit"
-        disabled={status === "submitting"}
+        disabled={form.status === "submitting"}
         className="inline-flex w-full items-center justify-center rounded-lg bg-teal-500 px-6 py-3 text-base font-semibold text-white transition-colors hover:bg-teal-600 disabled:cursor-not-allowed disabled:opacity-70 sm:w-auto"
       >
-        {status === "submitting" ? "Submitting…" : "Register as a professional"}
+        {form.status === "submitting" ? "Sending…" : "Register as a professional"}
       </button>
     </form>
+  );
+}
+
+function FieldSummary({ id, errors }: { id: string; errors: Record<string, string> }) {
+  const messages = Object.values(errors);
+  if (messages.length === 0) return null;
+  return (
+    <div id={id} role="alert" className="rounded-lg border border-red-200 bg-red-50 p-3 text-sm text-red-800">
+      Please check {messages.length === 1 ? "this field" : "these fields"}: {messages.join(" ")}
+    </div>
   );
 }

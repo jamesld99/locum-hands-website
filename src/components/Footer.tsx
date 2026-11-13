@@ -24,9 +24,9 @@ export function Footer() {
               <span className="text-lg font-bold text-white">Locum Hands Ltd</span>
             </Link>
             <p className="mt-4 max-w-sm text-sm leading-relaxed text-navy-200">
-              A UK-wide dental locum agency connecting dental nurses, hygienists,
-              therapists and dentists with practices that need reliable temporary
-              staff.
+              A UK-wide dental locum agency and recruitment service for dental
+              nurses, hygienists, therapists and dentists, and for practices
+              looking for temporary cover.
             </p>
             <address className="mt-4 not-italic text-sm text-navy-200">
               <a href={`tel:${siteConfig.phone}`} className="block hover:text-teal-300">

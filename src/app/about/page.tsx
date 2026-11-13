@@ -2,14 +2,14 @@ import type { Metadata } from "next";
 import fs from "node:fs";
 import path from "node:path";
 import Image from "next/image";
+import Link from "next/link";
 import { Container, Eyebrow } from "@/components/ui";
-import { Breadcrumbs, CtaBand, InlineLink, PageHero } from "@/components/sections";
+import { Breadcrumbs, CtaBand, PageHero } from "@/components/sections";
 import { JsonLd } from "@/components/JsonLd";
 import { breadcrumbSchema } from "@/lib/schema";
 import { buildPageMetadata } from "@/lib/seo";
 import { siteConfig } from "@/lib/site";
 import {
-  CheckIcon,
   HeartIcon,
   MapPinIcon,
   ShieldIcon,
@@ -17,9 +17,9 @@ import {
 } from "@/components/icons";
 
 export const metadata: Metadata = buildPageMetadata({
-  title: "About Us",
+  title: "Meet Liset Hernandez",
   description:
-    "Locum Hands Ltd is a UK-wide dental locum agency founded by Liset Hernandez. Discover our story, values and commitment to connecting dental professionals with practices.",
+    "Meet Liset Hernandez, a locum dental nurse and the founder of Locum Hands Ltd, a UK-wide dental locum agency.",
   path: "/about",
 });
 
@@ -31,13 +31,13 @@ const values = [
   },
   {
     icon: ShieldIcon,
-    title: "Compliance always",
-    text: "Rigorous vetting isn't optional — it's the foundation of safe, professional cover.",
+    title: "Clear about what's needed",
+    text: "We'll explain which documents a placement needs. Requirements vary, and we don't pretend every check is already done.",
   },
   {
     icon: MapPinIcon,
     title: "Genuinely UK-wide",
-    text: "Real reach and local knowledge across England, Scotland, Wales and Northern Ireland.",
+    text: "We work across England, Scotland, Wales and Northern Ireland. The Plymouth address is our registered office.",
   },
   {
     icon: UsersIcon,
@@ -73,7 +73,7 @@ export default function AboutPage() {
       <PageHero
         eyebrow="About Locum Hands"
         title="Putting the right dental hands in the right place"
-        description="Locum Hands Ltd is a family-run, UK-wide dental locum agency founded on a simple belief: dental professionals deserve flexible, well-supported work, and practices deserve reliable, fully-vetted cover."
+        description="Locum Hands Ltd is a UK-wide dental locum agency founded by Liset Hernandez, a locum dental nurse. We introduce professionals and practices, and nothing is booked until the details are agreed."
       >
         <div className="mt-6">
           <Breadcrumbs
@@ -93,87 +93,29 @@ export default function AboutPage() {
               <FounderPortrait hasPhoto={hasPhoto} />
             </div>
             <div className="lg:col-span-3">
-              <Eyebrow>Meet the founder</Eyebrow>
+              <Eyebrow>Meet Liset</Eyebrow>
               <h2 className="mt-3 text-3xl font-bold tracking-tight text-navy-900 sm:text-4xl">
-                {siteConfig.founder.name}
+                Meet Liset
               </h2>
               <p className="mt-1 text-lg font-semibold text-teal-600">
-                {siteConfig.founder.role}, {siteConfig.legalName}
+                {siteConfig.founder.name}, locum dental nurse and founder
               </p>
               <div className="mt-6 space-y-5 text-lg leading-relaxed text-navy-600">
+                <p>Hi, I&apos;m Liset. I&apos;m a mum, a locum dental nurse and the founder of Locum Hands.</p>
                 <p>
-                  Locum Hands was founded by Liset Hernandez, who saw first-hand
-                  how stressful and time-consuming finding good dental cover could be
-                  — for clinicians and practices alike. She set out to build an agency
-                  that does things differently: personal, dependable and genuinely on
-                  your side.
+                  I grew up in Cuba and moved to England on my own. I had to learn a new
+                  language and find my feet in a new country. It took me a while to build
+                  my confidence, and I&apos;m proud of what I&apos;ve built since then. Outside of
+                  dentistry, I love cooking Cuban food.
                 </p>
                 <p>
-                  Liset brings a deep understanding of the dental sector and a
-                  passion for matching talented professionals with the practices that
-                  need them. Her vision is an agency where dental nurses, hygienists,
-                  therapists and dentists feel supported to build careers on their own
-                  terms, and where practices can rely on compliant, high-quality cover
-                  whenever they need it.
-                </p>
-                <p>
-                  As a family-run business, Locum Hands is built on relationships, not
-                  transactions. That hands-on, human approach runs through everything
-                  we do — and it&apos;s why professionals and practices across the UK
-                  choose to work with us.
+                  Being a mum has made me appreciate how much it means to have work that
+                  fits around your life. I still work as a locum dental nurse, and I know
+                  how much I value being able to pick up the phone and talk things through
+                  with someone who understands the job. That&apos;s the kind of support I want
+                  people to feel when they get in touch with Locum Hands.
                 </p>
               </div>
-              <ul className="mt-8 grid gap-3 sm:grid-cols-2">
-                {[
-                  "Deep dental-sector expertise",
-                  "A genuinely personal service",
-                  "Family-run values, UK-wide reach",
-                  "Committed to compliance and care",
-                ].map((point) => (
-                  <li key={point} className="flex items-start gap-3 text-navy-700">
-                    <CheckIcon className="mt-0.5 h-5 w-5 flex-none text-teal-500" />
-                    <span>{point}</span>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          </div>
-        </Container>
-      </section>
-
-      {/* Story */}
-      <section className="bg-navy-50/50">
-        <Container className="py-16 sm:py-24">
-          <div className="mx-auto max-w-3xl">
-            <Eyebrow>Our story</Eyebrow>
-            <h2 className="mt-3 text-3xl font-bold tracking-tight text-navy-900">
-              A family-run agency built by people who know dentistry
-            </h2>
-            <div className="mt-6 space-y-5 text-lg leading-relaxed text-navy-600">
-              <p>
-                Locum Hands began with a frustration shared by professionals and
-                practice managers alike: finding good locum cover was harder than it
-                should be. Clinicians wanted flexibility without the admin headache.
-                Practices wanted reliable, compliant staff without the panic of a
-                last-minute gap.
-              </p>
-              <p>
-                So we built an agency to fix exactly that. One that treats clinicians
-                as partners rather than line items, that takes compliance seriously,
-                and that picks up the phone when you need it. From a single dental
-                nurse covering a sick day to ongoing clinical support, we focus on
-                getting the match right — every time.
-              </p>
-              <p>
-                Today, Locum Hands connects dental nurses, hygienists, therapists and
-                dentists with practices across the United Kingdom. We&apos;re proud to
-                help professionals build careers on their own terms, and to keep
-                surgeries running so patients get the care they need. New to locum
-                work?{" "}
-                <InlineLink href="/resources/how-to-find-dental-locum-work-uk">
-                  Read our guide to finding dental locum work
-                </InlineLink>
-              </p>
             </div>
           </div>
         </Container>
@@ -207,12 +149,16 @@ export default function AboutPage() {
         <Container className="py-16 sm:py-24">
           <div className="rounded-3xl bg-gradient-to-br from-navy-700 to-teal-700 p-10 text-center text-white sm:p-16">
             <h2 className="mx-auto max-w-3xl text-2xl font-bold sm:text-3xl">
-              &ldquo;Our mission is simple: make dental locum work effortless for
-              professionals and dependable for practices — across the whole of the
-              UK.&rdquo;
+              Flexible locum work for professionals, and cover you can talk through
+              before anything is booked.
             </h2>
-            <p className="mt-6 text-navy-100">
-              {siteConfig.founder.name}, {siteConfig.founder.role}
+            <p className="mt-6 flex flex-wrap justify-center gap-4 text-base font-semibold">
+              <Link href="/professionals#register" className="underline">
+                Find locum work
+              </Link>
+              <Link href="/practices#enquiry" className="underline">
+                Enquire about cover
+              </Link>
             </p>
           </div>
         </Container>
@@ -222,7 +168,7 @@ export default function AboutPage() {
         title="Let's work together"
         description="Whether you're looking for locum work or need to cover your rota, we'd love to help."
         primary={{ href: "/professionals#register", label: "Find locum work" }}
-        secondary={{ href: "/practices#enquiry", label: "Book locum staff" }}
+        secondary={{ href: "/practices#enquiry", label: "Enquire about cover" }}
       />
     </>
   );

@@ -50,17 +50,27 @@ All site-wide details live in [`src/lib/site.ts`](src/lib/site.ts) — update th
 production `url`, phone, email and address there and they flow through metadata,
 schema, the header and the footer.
 
-## Form submissions storage
+## Form submissions
 
-Submissions are validated server-side and appended as newline-delimited JSON to
-the `data/` directory (owner-only file permissions). These files contain personal
-data and are **git-ignored**.
+Enquiries are validated in the browser and on the server, then saved to
+PostgreSQL. That database row is the receipt. Resend is only the notification
+to `hello@locumhands.co.uk`. Local JSON files and Vercel's temporary disk are
+not a receipt.
 
-> **Production note:** On Vercel the app filesystem is read-only. For production,
-> set `SUBMISSIONS_DIR` to a writable path, or replace the body of
-> `saveSubmission` in [`src/lib/storage.ts`](src/lib/storage.ts) with a managed
-> datastore (e.g. Vercel Postgres / Supabase) and an email notifier (e.g. Resend).
-> The public API stays the same, so the rest of the app needs no changes.
+Copy `.env.example` to `.env.local` and set `DATABASE_URL` to a Postgres
+database. Without `RESEND_API_KEY`, the enquiry is still saved and the
+notification is marked failed so it can be retried. Do not set real secrets in
+the example file.
+
+Authorised staff can inspect and retry notifications with:
+
+```bash
+npm run enquiries:status
+npm run enquiries:retry
+```
+
+`enquiries:status -- --details` prints the submitted fields. Keep that output
+private.
 
 ## Content
 
