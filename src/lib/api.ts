@@ -1,14 +1,12 @@
 import { NextResponse, type NextRequest } from "next/server";
 import type { ZodType } from "zod";
 import { clientIp } from "./enquiries/rate-limit";
-import { getEnquiryStore } from "./enquiries/runtime";
 import { handleEnquiryRequest, type EnquiryDeps } from "./enquiries/submit";
 import { createMailerFromEnv } from "./enquiries/notify";
 import type { EnquiryKind } from "./enquiries/types";
 
 function defaultDeps(): EnquiryDeps {
   return {
-    getStore: () => getEnquiryStore(),
     mailer: createMailerFromEnv(),
     from: process.env.ENQUIRY_FROM_EMAIL || "Locum Hands <notifications@notify.locumhands.co.uk>",
     to: process.env.ENQUIRY_TO_EMAIL || "hello@locumhands.co.uk",
@@ -16,9 +14,8 @@ function defaultDeps(): EnquiryDeps {
 }
 
 /**
- * Shared POST handler. Validates, rate-limits through Postgres, saves the
- * enquiry, then attempts the notification. A receipt is returned only after
- * the database save commits.
+ * Shared POST handler. Validates, rate-limits in memory, then sends the
+ * enquiry email. A reference is returned only after Resend accepts the send.
  */
 export async function handleSubmission(req: NextRequest, kind: EnquiryKind, schema: ZodType) {
   let bodyText = "";

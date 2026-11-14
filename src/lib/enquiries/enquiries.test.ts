@@ -1,28 +1,15 @@
 import assert from "node:assert/strict";
 import { randomUUID } from "node:crypto";
 import { describe, it } from "node:test";
-import { PGlite } from "@electric-sql/pglite";
 import { contactSchema, practiceSchema, professionalSchema } from "../validations";
-import { createEnquiryStore, type EnquiryStore, type Sql } from "./store";
-import { handleEnquiryRequest, deliverNotification } from "./submit";
+import { createDeliveryBook, createRateLimiter } from "./memory";
 import type { EnquiryEmail, EnquiryMailer } from "./notify";
-import { StorageUnavailableError } from "./types";
+import { handleEnquiryRequest, type EnquiryDeps } from "./submit";
+import type { EnquiryKind } from "./types";
+import type { ZodType } from "zod";
 
-const from = "Locum Hands <notifications@locumhands.co.uk>";
+const from = "Locum Hands <notifications@notify.locumhands.co.uk>";
 const to = "hello@locumhands.co.uk";
-
-async function createTestStore(): Promise<{ store: EnquiryStore; sql: Sql }> {
-  const db = new PGlite();
-  const sql: Sql = {
-    query: async (text, params) => {
-      const result = await db.query(text, params);
-      return { rows: result.rows as Record<string, unknown>[] };
-    },
-  };
-  const store = createEnquiryStore(sql);
-  await store.ensureSchema();
-  return { store, sql };
-}
 
 function mailer(impl?: (email: EnquiryEmail) => Promise<void> | void): EnquiryMailer & { sent: EnquiryEmail[] } {
   const sent: EnquiryEmail[] = [];
@@ -35,6 +22,152 @@ function mailer(impl?: (email: EnquiryEmail) => Promise<void> | void): EnquiryMa
   };
 }
 
+function deps(sender: EnquiryMailer, rateLimit?: { limit: number; windowMs: number }): EnquiryDeps {
+  return {
+    mailer: sender,
+    from,
+    to,
+    limiter: createRateLimiter(),
+    deliveries: createDeliveryBook(),
+    rateLimit,
+  };
+}
+
+function request(kind: EnquiryKind, schema: ZodType, body: Record<string, unknown>, ipHint: string) {
+  return {
+    kind,
+    schema,
+    contentType: "application/json",
+    contentLength: null,
+    bodyText: JSON.stringify(body),
+    ipHint,
+  };
+}
+
+describe("enquiry email delivery", () => {
+  it("sends each form only after the mailer accepts it", async () => {
+    const forms = [
+      {
+        kind: "professional" as const,
+        schema: professionalSchema,
+        body: professionalBody(),
+        replyTo: "jamie@example.com",
+        needle: "Jamie Example",
+      },
+      {
+        kind: "practice" as const,
+        schema: practiceSchema,
+        body: practiceBody(),
+        replyTo: "pat@example.com",
+        needle: "Example Dental",
+      },
+      {
+        kind: "contact" as const,
+        schema: contactSchema,
+        body: contactBody(),
+        replyTo: "sam@example.com",
+        needle: "Hello from the contact form.",
+      },
+    ];
+
+    for (const form of forms) {
+      const sender = mailer();
+      const result = await handleEnquiryRequest(request(form.kind, form.schema, form.body, "203.0.113.10"), deps(sender));
+      assert.equal(result.status, 201);
+      assert.equal(result.body.ok, true);
+      assert.equal(result.body.id, form.body.idempotencyKey);
+      assert.equal(sender.sent.length, 1);
+      assert.equal(sender.sent[0]?.to, to);
+      assert.equal(sender.sent[0]?.replyTo, form.replyTo);
+      assert.equal(sender.sent[0]?.idempotencyKey, form.body.idempotencyKey);
+      assert.match(sender.sent[0]?.text ?? "", new RegExp(form.needle.replace(/[.]/g, "\\.")));
+      assert.match(sender.sent[0]?.html ?? "", /LOCUM HANDS/);
+      assert.equal(JSON.stringify(sender.sent).includes("203.0.113.10"), false);
+    }
+  });
+
+  it("keeps a failed send unconfirmed and lets one retry send a single email", async () => {
+    const forms = [
+      { kind: "professional" as const, schema: professionalSchema, body: professionalBody() },
+      { kind: "practice" as const, schema: practiceSchema, body: practiceBody() },
+      { kind: "contact" as const, schema: contactSchema, body: contactBody() },
+    ];
+
+    for (const form of forms) {
+      let failed = false;
+      const sender = mailer(async () => {
+        if (!failed) {
+          failed = true;
+          throw new Error("RESEND_503");
+        }
+      });
+      const runtime = deps(sender);
+      const first = await handleEnquiryRequest(request(form.kind, form.schema, form.body, "203.0.113.12"), runtime);
+      assert.equal(first.status, 502);
+      assert.equal(first.body.ok, false);
+      assert.equal(first.body.id, undefined);
+      assert.match(String(first.body.error), /07949 282054/);
+      assert.match(String(first.body.error), /hello@locumhands.co.uk/);
+      assert.match(String(first.body.error), /still in the form/);
+      assert.equal(sender.sent.length, 0);
+
+      const second = await handleEnquiryRequest(request(form.kind, form.schema, form.body, "203.0.113.12"), runtime);
+      assert.equal(second.status, 201);
+      assert.equal(second.body.id, form.body.idempotencyKey);
+      assert.equal(sender.sent.length, 1);
+
+      const third = await handleEnquiryRequest(request(form.kind, form.schema, form.body, "203.0.113.12"), runtime);
+      assert.equal(third.status, 200);
+      assert.equal(third.body.id, form.body.idempotencyKey);
+      assert.equal(sender.sent.length, 1);
+    }
+  });
+
+  it("rate limits across the forms and does not send the blocked request", async () => {
+    const sender = mailer();
+    const runtime = deps(sender, { limit: 2, windowMs: 60_000 });
+    const attempts = [
+      request("professional", professionalSchema, professionalBody(), "203.0.113.20"),
+      request("practice", practiceSchema, practiceBody(), "203.0.113.20"),
+      request("contact", contactSchema, contactBody(), "203.0.113.20"),
+    ];
+    assert.equal((await handleEnquiryRequest(attempts[0]!, runtime)).status, 201);
+    assert.equal((await handleEnquiryRequest(attempts[1]!, runtime)).status, 201);
+    const blocked = await handleEnquiryRequest(attempts[2]!, runtime);
+    assert.equal(blocked.status, 429);
+    assert.match(String(blocked.body.error), /07949 282054/);
+    assert.equal(sender.sent.length, 2);
+    assert.equal((await handleEnquiryRequest(attempts[0]!, runtime)).status, 200);
+    assert.equal(sender.sent.length, 2);
+  });
+
+  it("discards honeypot submissions and rejects oversized bodies without sending", async () => {
+    const sender = mailer();
+    const runtime = deps(sender);
+    const honeypot = await handleEnquiryRequest(
+      request("practice", practiceSchema, practiceBody({ hp_field: "https://spam.example" }), "203.0.113.30"),
+      runtime,
+    );
+    assert.equal(honeypot.status, 200);
+    assert.equal(honeypot.body.id, undefined);
+    assert.equal(sender.sent.length, 0);
+
+    const oversized = await handleEnquiryRequest(
+      {
+        kind: "contact",
+        schema: contactSchema,
+        contentType: "application/json",
+        contentLength: "999999",
+        bodyText: JSON.stringify({ message: "x" }),
+        ipHint: "203.0.113.31",
+      },
+      runtime,
+    );
+    assert.equal(oversized.status, 413);
+    assert.equal(sender.sent.length, 0);
+  });
+});
+
 function professionalBody(overrides: Record<string, unknown> = {}) {
   return {
     fullName: "Jamie Example",
@@ -42,7 +175,7 @@ function professionalBody(overrides: Record<string, unknown> = {}) {
     phone: "07700900123",
     professionType: "nurse",
     professionOther: "",
-    gdcNumber: "",
+    gdcNumber: "DN123456",
     experienceLevel: "1-3-years",
     availability: "flexible",
     locationPreferences: "Bristol",
@@ -55,227 +188,7 @@ function professionalBody(overrides: Record<string, unknown> = {}) {
   };
 }
 
-describe("enquiry storage and notification", () => {
-  it("saves the enquiry and marks the notification sent together", async () => {
-    const { store } = await createTestStore();
-    const sender = mailer();
-    const body = professionalBody();
-    const result = await handleEnquiryRequest(
-      {
-        kind: "professional",
-        schema: professionalSchema,
-        contentType: "application/json",
-        contentLength: null,
-        bodyText: JSON.stringify(body),
-        ipHint: "203.0.113.10",
-      },
-      { getStore: () => store, mailer: sender, from, to },
-    );
-
-    assert.equal(result.status, 201);
-    assert.equal(await store.countEnquiries(), 1);
-    const saved = await store.getById(String(result.body.id));
-    assert.equal(saved?.notificationStatus, "sent");
-    assert.equal(saved?.payload.hp_field, undefined);
-    assert.equal(sender.sent.length, 1);
-    assert.equal(sender.sent[0]?.replyTo, "jamie@example.com");
-    assert.equal(sender.sent[0]?.to, to);
-    assert.match(sender.sent[0]?.text ?? "", /Jamie Example/);
-    assert.match(sender.sent[0]?.text ?? "", /Bristol/);
-    assert.equal(JSON.stringify(saved).includes("203.0.113.10"), false);
-  });
-
-  it("does not create a second enquiry or a second email when the same form is retried", async () => {
-    const { store } = await createTestStore();
-    const sender = mailer();
-    const body = professionalBody();
-    const request = {
-      kind: "professional" as const,
-      schema: professionalSchema,
-      contentType: "application/json",
-      contentLength: null,
-      bodyText: JSON.stringify(body),
-      ipHint: "203.0.113.11",
-    };
-    const deps = { getStore: () => store, mailer: sender, from, to };
-    const first = await handleEnquiryRequest(request, deps);
-    const second = await handleEnquiryRequest(request, deps);
-    assert.equal(first.body.id, second.body.id);
-    assert.equal(second.status, 200);
-    assert.equal(await store.countEnquiries(), 1);
-    assert.equal(sender.sent.length, 1);
-  });
-
-  it("keeps the enquiry and allows one retry when email fails", async () => {
-    const { store } = await createTestStore();
-    let failed = false;
-    const sender = mailer(async () => {
-      if (!failed) {
-        failed = true;
-        throw new Error("RESEND_503");
-      }
-    });
-    const body = professionalBody();
-    const request = {
-      kind: "professional" as const,
-      schema: professionalSchema,
-      contentType: "application/json",
-      contentLength: null,
-      bodyText: JSON.stringify(body),
-      ipHint: "203.0.113.12",
-    };
-    const deps = { getStore: () => store, mailer: sender, from, to };
-    const first = await handleEnquiryRequest(request, deps);
-    assert.equal(first.status, 201);
-    const afterFailure = await store.getById(String(first.body.id));
-    assert.equal(afterFailure?.notificationStatus, "failed");
-    assert.equal(afterFailure?.notificationError, "RESEND_503");
-    assert.equal(sender.sent.length, 0);
-
-    const record = afterFailure!;
-    const retry = await deliverNotification(record, store, sender, { from, to });
-    assert.equal(retry, "sent");
-    assert.equal(sender.sent.length, 1);
-    const again = await deliverNotification(
-      { ...record, notificationStatus: "sent" },
-      store,
-      sender,
-      { from, to },
-    );
-    assert.equal(again, "skipped");
-    assert.equal(sender.sent.length, 1);
-    assert.equal(await store.countEnquiries(), 1);
-  });
-
-  it("rate limits with a shared counter and does not save the blocked request", async () => {
-    const { store } = await createTestStore();
-    const sender = mailer();
-    const deps = {
-      getStore: () => store,
-      mailer: sender,
-      from,
-      to,
-      rateLimit: { limit: 2, windowMs: 60_000 },
-    };
-    for (let i = 0; i < 2; i += 1) {
-      const result = await handleEnquiryRequest(
-        {
-          kind: "contact",
-          schema: contactSchema,
-          contentType: "application/json",
-          contentLength: null,
-          bodyText: JSON.stringify({
-            name: "Alex Example",
-            email: `alex${i}@example.com`,
-            phone: "",
-            enquiryType: "",
-            message: "Please tell me about locum cover.",
-            consent: true,
-            hp_field: "",
-            idempotencyKey: randomUUID(),
-          }),
-          ipHint: "203.0.113.20",
-        },
-        deps,
-      );
-      assert.equal(result.status, 201);
-    }
-    const blocked = await handleEnquiryRequest(
-      {
-        kind: "contact",
-        schema: contactSchema,
-        contentType: "application/json",
-        contentLength: null,
-        bodyText: JSON.stringify({
-          name: "Alex Example",
-          email: "alex3@example.com",
-          phone: "",
-          enquiryType: "practice",
-          message: "This one should be limited.",
-          consent: true,
-          hp_field: "",
-          idempotencyKey: randomUUID(),
-        }),
-        ipHint: "203.0.113.20",
-      },
-      deps,
-    );
-    assert.equal(blocked.status, 429);
-    assert.equal(await store.countEnquiries(), 2);
-  });
-
-  it("discards honeypot submissions and rejects oversized bodies", async () => {
-    const { store } = await createTestStore();
-    const sender = mailer();
-    const honeypot = await handleEnquiryRequest(
-      {
-        kind: "practice",
-        schema: practiceSchema,
-        contentType: "application/json",
-        contentLength: null,
-        bodyText: JSON.stringify(
-          professionalPractice({ hp_field: "https://spam.example" }),
-        ),
-        ipHint: "203.0.113.30",
-      },
-      { getStore: () => store, mailer: sender, from, to },
-    );
-    assert.equal(honeypot.status, 200);
-    assert.equal(honeypot.body.id, undefined);
-    assert.equal(await store.countEnquiries(), 0);
-    assert.equal(sender.sent.length, 0);
-
-    const oversized = await handleEnquiryRequest(
-      {
-        kind: "contact",
-        schema: contactSchema,
-        contentType: "application/json",
-        contentLength: "999999",
-        bodyText: JSON.stringify({ message: "x" }),
-        ipHint: "203.0.113.31",
-      },
-      { getStore: () => store, mailer: sender, from, to },
-    );
-    assert.equal(oversized.status, 413);
-    assert.equal(await store.countEnquiries(), 0);
-  });
-
-  it("returns a clear error when storage is unavailable and does not claim a receipt", async () => {
-    const result = await handleEnquiryRequest(
-      {
-        kind: "contact",
-        schema: contactSchema,
-        contentType: "application/json",
-        contentLength: null,
-        bodyText: JSON.stringify({
-          name: "Sam Example",
-          email: "sam@example.com",
-          phone: "",
-          enquiryType: "",
-          message: "Hello from the contact form.",
-          consent: true,
-          hp_field: "",
-          idempotencyKey: randomUUID(),
-        }),
-        ipHint: "203.0.113.40",
-      },
-      {
-        getStore: () => {
-          throw new StorageUnavailableError();
-        },
-        mailer: mailer(),
-        from,
-        to,
-      },
-    );
-    assert.equal(result.status, 503);
-    assert.equal(result.body.ok, false);
-    assert.match(String(result.body.error), /has not been received/);
-    assert.match(String(result.body.error), /07949 282054/);
-  });
-});
-
-function professionalPractice(overrides: Record<string, unknown> = {}) {
+function practiceBody(overrides: Record<string, unknown> = {}) {
   return {
     practiceName: "Example Dental",
     contactName: "Pat Manager",
@@ -289,6 +202,20 @@ function professionalPractice(overrides: Record<string, unknown> = {}) {
     shiftHours: "8:30am to 5pm",
     coverType: "tentative",
     details: "",
+    consent: true,
+    hp_field: "",
+    idempotencyKey: randomUUID(),
+    ...overrides,
+  };
+}
+
+function contactBody(overrides: Record<string, unknown> = {}) {
+  return {
+    name: "Sam Example",
+    email: "sam@example.com",
+    phone: "07700900333",
+    enquiryType: "professional",
+    message: "Hello from the contact form.",
     consent: true,
     hp_field: "",
     idempotencyKey: randomUUID(),

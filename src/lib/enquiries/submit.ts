@@ -1,23 +1,19 @@
 import type { ZodType } from "zod";
-import { rateLimitMessage, storageFailureMessage } from "../copy";
+import { rateLimitMessage, sendFailureMessage } from "../copy";
 import { RATE_LIMIT_MAX, RATE_LIMIT_WINDOW_MS, hashRateLimitSubject } from "./rate-limit";
-import type { EnquiryStore } from "./store";
+import { createDeliveryBook, createRateLimiter, type DeliveryBook, type RateLimiter } from "./memory";
 import { buildEnquiryEmail, notificationErrorCode, type EnquiryMailer } from "./notify";
-import {
-  EmailNotConfiguredError,
-  StorageUnavailableError,
-  type EnquiryKind,
-  type EnquiryRecord,
-} from "./types";
+import type { EnquiryKind, EnquiryRecord } from "./types";
 
 export const MAX_BODY_BYTES = 16_384;
 
 export type EnquiryDeps = {
-  getStore: () => EnquiryStore;
   mailer: EnquiryMailer;
   from: string;
   to: string;
   rateLimit?: { limit: number; windowMs: number };
+  limiter?: RateLimiter;
+  deliveries?: DeliveryBook;
 };
 
 type RequestInput = {
@@ -29,6 +25,23 @@ type RequestInput = {
   ipHint: string;
 };
 
+const shared = globalThis as {
+  __locumRateLimiter?: RateLimiter;
+  __locumDeliveries?: DeliveryBook;
+};
+
+function sharedLimiter(): RateLimiter {
+  return (shared.__locumRateLimiter ??= createRateLimiter());
+}
+
+function sharedDeliveries(): DeliveryBook {
+  return (shared.__locumDeliveries ??= createDeliveryBook());
+}
+
+/**
+ * Validates and rate-limits, then sends the enquiry email. Confirmation is
+ * returned only after Resend accepts it. Nothing is written to a database.
+ */
 export async function handleEnquiryRequest(
   input: RequestInput,
   deps: EnquiryDeps,
@@ -82,66 +95,59 @@ export async function handleEnquiryRequest(
   delete payload.hp_field;
   delete payload.idempotencyKey;
 
-  try {
-    const store = deps.getStore();
+  const limiter = deps.limiter ?? sharedLimiter();
+  const deliveries = deps.deliveries ?? sharedDeliveries();
+  const alreadySent = deliveries.sentId(idempotencyKey);
+  if (alreadySent) {
+    return { status: 200, body: { ok: true, id: alreadySent } };
+  }
+  const inflight = deliveries.inflight(idempotencyKey);
+  if (inflight) {
+    return resultOf(idempotencyKey, inflight);
+  }
+
+  if (!deliveries.admitted(idempotencyKey)) {
     const limit = deps.rateLimit?.limit ?? RATE_LIMIT_MAX;
     const windowMs = deps.rateLimit?.windowMs ?? RATE_LIMIT_WINDOW_MS;
-    const limited = await store.consumeRateLimit(hashRateLimitSubject(input.ipHint), limit, windowMs);
-    if (limited) {
+    if (limiter.consume(hashRateLimitSubject(input.ipHint), limit, windowMs)) {
       return { status: 429, body: { ok: false, error: rateLimitMessage } };
     }
+    deliveries.admit(idempotencyKey);
+  }
 
-    const saved = await store.insertEnquiry({
-      kind: input.kind,
-      idempotencyKey,
-      payload,
-      replyTo,
-    });
+  const record: EnquiryRecord = {
+    id: idempotencyKey,
+    kind: input.kind,
+    idempotencyKey,
+    payload,
+    replyTo,
+    createdAt: new Date().toISOString(),
+    notificationStatus: "pending",
+    notificationAttempts: 1,
+    notificationError: null,
+    notificationKey: idempotencyKey,
+  };
+  const email = buildEnquiryEmail(record, { from: deps.from, to: deps.to });
 
-    try {
-      await deliverNotification(saved.record, store, deps.mailer, {
-        from: deps.from,
-        to: deps.to,
-      });
-    } catch (error) {
-      console.error("enquiry_notification_failed", input.kind, notificationErrorCode(error));
-    }
-
-    return {
-      status: saved.created ? 201 : 200,
-      body: { ok: true, id: saved.record.id },
-    };
+  try {
+    const accepted = await deliveries.begin(idempotencyKey, record.id, () => deps.mailer.send(email));
+    if (!accepted) return failed();
+    return { status: 201, body: { ok: true, id: record.id } };
   } catch (error) {
-    if (!(error instanceof StorageUnavailableError)) {
-      console.error("enquiry_storage_failed", input.kind);
-    }
-    return { status: 503, body: { ok: false, error: storageFailureMessage } };
+    console.error("enquiry_notification_failed", input.kind, notificationErrorCode(error));
+    return failed();
   }
 }
 
-export async function deliverNotification(
-  record: EnquiryRecord,
-  store: EnquiryStore,
-  mailer: EnquiryMailer,
-  options: { from: string; to: string; reclaimStaleSending?: boolean },
-): Promise<"sent" | "failed" | "skipped"> {
-  if (record.notificationStatus === "sent") return "skipped";
-  const claimed = await store.claimForSend(record.id, {
-    reclaimStaleSending: options.reclaimStaleSending,
-  });
-  if (!claimed) return "skipped";
+async function resultOf(id: string, pending: Promise<boolean>): Promise<{ status: number; body: Record<string, unknown> }> {
   try {
-    await mailer.send(buildEnquiryEmail(claimed, { from: options.from, to: options.to }));
-    await store.markSent(claimed.id);
-    return "sent";
-  } catch (error) {
-    const code = notificationErrorCode(error);
-    try {
-      await store.markFailed(claimed.id, code);
-    } catch {
-      console.error("enquiry_notification_state_failed", claimed.kind);
-    }
-    if (error instanceof EmailNotConfiguredError) return "failed";
-    return "failed";
+    const accepted = await pending;
+    return accepted ? { status: 200, body: { ok: true, id } } : failed();
+  } catch {
+    return failed();
   }
+}
+
+function failed(): { status: number; body: Record<string, unknown> } {
+  return { status: 502, body: { ok: false, error: sendFailureMessage } };
 }

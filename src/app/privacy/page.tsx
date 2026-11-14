@@ -11,7 +11,7 @@ import { siteConfig } from "@/lib/site";
 export const metadata: Metadata = buildPageMetadata({
   title: "Privacy Notice",
   description:
-    "How Locum Hands Ltd handles enquiries sent through the website forms, and which privacy decisions are still to be confirmed.",
+    "How Locum Hands Ltd handles enquiries sent through the website forms, including who can see them and how long they are kept.",
   path: "/privacy",
 });
 
@@ -34,9 +34,8 @@ export default function PrivacyPage() {
         <article className="mx-auto mt-8 max-w-3xl">
           <h1 className="text-4xl font-bold tracking-tight text-navy-900">Privacy notice</h1>
           <p className="mt-4 text-lg text-navy-600">
-            This notice explains what the Locum Hands website forms collect. It is not a finished
-            privacy policy. A few decisions still need to be made by Locum Hands before it can be
-            treated as complete.
+            This notice explains what the Locum Hands website forms collect and how those enquiries
+            are handled.
           </p>
 
           <h2 className="mt-10 text-2xl font-bold text-navy-900">Who we are</h2>
@@ -70,32 +69,47 @@ export default function PrivacyPage() {
 
           <h2 className="mt-10 text-2xl font-bold text-navy-900">How an enquiry is handled</h2>
           <p className="mt-3 text-navy-700">
-            If the enquiry is saved, that database record is the receipt. A notification is then
-            sent to {siteConfig.email} from the verified Locum Hands address on
-            notify.locumhands.co.uk. The email lists the details you entered. Your email address
-            is the reply-to address, so a reply goes to you. You are shown a reference only after
-            the save succeeds. If the notification cannot be sent, the enquiry is kept and the
-            delivery state is recorded so it can be tried again without creating a second enquiry.
+            The form emails your details to {siteConfig.email} from the verified Locum Hands
+            address on notify.locumhands.co.uk. That inbox message is the enquiry. Your email
+            address is the reply-to address, so a reply goes to you. You are shown a reference
+            only after the email is accepted. If it cannot be sent, nothing is kept and the form
+            still shows what you typed. Sending it again uses the same reference, so a second
+            email is not created once the first one has been accepted.
           </p>
           <p className="mt-3 text-navy-700">
-            We do not store your IP address alongside the enquiry. The site keeps a short-lived
-            hash to limit repeated submissions.
+            We do not keep a separate copy of the form. We do not store your IP address. The
+            server keeps a short-lived hash in memory to limit repeated submissions.
           </p>
 
-          <h2 className="mt-10 text-2xl font-bold text-navy-900">Still to be confirmed</h2>
-          <ul className="mt-3 list-disc space-y-2 pl-5 text-navy-700">
-            <li>
-              Lawful basis. The form asks you to confirm you have read this notice. That checkbox
-              is not, by itself, a decision about whether the lawful basis is contract, legitimate
-              interests or consent.
-            </li>
-            <li>How long enquiry records are kept, and when they are deleted.</li>
-            <li>Which members of staff may open the enquiry database or the notification inbox.</li>
-          </ul>
+          <h2 className="mt-10 text-2xl font-bold text-navy-900">Why we use enquiry details</h2>
           <p className="mt-3 text-navy-700">
-            Until those points are confirmed, email {siteConfig.email} if you want to know how a
-            particular enquiry is being handled, or if you want us to correct or delete what you
-            sent.
+            Locum Hands receives a routine enquiry by email, keeps that email and replies because
+            that is necessary for its legitimate interests in running the agency and answering
+            people who get in touch. Where using the details is necessary for a contract with you,
+            or for steps you ask Locum Hands to take before a contract, the lawful basis is
+            contract. The checkbox on the form records that you have read this notice.
+          </p>
+
+          <h2 className="mt-10 text-2xl font-bold text-navy-900">Who can see an enquiry</h2>
+          <p className="mt-3 text-navy-700">
+            Liset Hernandez handles Locum Hands enquiries. She is responsible for how long they are
+            kept and for deleting them. Routine access to the enquiry inbox is limited to Liset.
+            James Lloyd-Davies can help with an enquiry in Outlook only when Liset specifically
+            authorises it and there is a business need. He does not need database access for
+            routine enquiry handling.
+          </p>
+
+          <h2 className="mt-10 text-2xl font-bold text-navy-900">How long enquiries are kept</h2>
+          <p className="mt-3 text-navy-700">
+            A closed routine enquiry is kept in the inbox for up to six months. It is deleted
+            sooner when the information is no longer needed, and Liset removes it from Outlook. A
+            registration or booking that is still active, and a record needed for a legal
+            obligation or a dispute, is kept for the period that applies to that record. Liset
+            reviews closed routine enquiries each month.
+          </p>
+          <p className="mt-3 text-navy-700">
+            Email {siteConfig.email} if you want to know how a particular enquiry is being handled,
+            or if you want us to correct or delete what you sent.
           </p>
 
           <p className="mt-10 text-sm text-navy-500">

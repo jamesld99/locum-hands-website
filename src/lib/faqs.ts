@@ -91,7 +91,7 @@ export const faqGroups: FaqGroup[] = [
       {
         question: "How is my data handled?",
         answer:
-          "Details sent through the forms are stored so we can respond, and a notification is prepared for hello@locumhands.co.uk. Please read the privacy notice. The lawful basis, how long enquiry records are kept, and which staff can open them still need to be confirmed by Locum Hands.",
+          "The forms email your details to hello@locumhands.co.uk. That inbox message is the enquiry. Routine enquiries are handled for Locum Hands' legitimate interests in receiving, keeping and answering them. Where the details are needed for a contract with you, or for steps you ask for before a contract, that contract basis is used. The checkbox confirms you have read the privacy notice. Liset Hernandez handles the inbox and decides how long messages are kept. Closed routine enquiries are kept for up to six months and deleted sooner when they are no longer needed. Read the privacy notice for who can see an enquiry.",
       },
       {
         question: "How do I get in touch?",

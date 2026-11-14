@@ -24,15 +24,6 @@ export type InsertEnquiryInput = {
   replyTo: string;
 };
 
-export class StorageUnavailableError extends Error {
-  readonly code = "STORAGE_UNAVAILABLE";
-
-  constructor() {
-    super("STORAGE_UNAVAILABLE");
-    this.name = "StorageUnavailableError";
-  }
-}
-
 export class EmailNotConfiguredError extends Error {
   readonly code = "EMAIL_NOT_CONFIGURED";
 

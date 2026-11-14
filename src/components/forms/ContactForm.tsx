@@ -36,7 +36,7 @@ export function ContactForm() {
       <FormStatus
         status="success"
         successTitle="Message received"
-        successMessage={`Thank you. Reference ${form.reference}. Your message is saved, so you don't need to send it again. If you need to add something, call ${siteConfig.phoneDisplay} or email ${siteConfig.email} and quote the reference.`}
+        successMessage={`Thank you. Reference ${form.reference}. Your message has been sent. If you need to add something, call ${siteConfig.phoneDisplay} or email ${siteConfig.email} and quote the reference.`}
         onAnother={form.startAnother}
         anotherLabel="Send another message"
       />
@@ -65,8 +65,7 @@ export function ContactForm() {
       </div>
       <TextAreaField id="message" label="Message" required rows={5} error={form.errors.message} placeholder="Tell us a little about what you need." />
       <CheckboxField id="consent" error={form.errors.consent} required>
-        I have read the <Link href="/privacy" className="font-semibold text-teal-700 underline">privacy notice</Link> and
-        I am happy for Locum Hands to use these details to respond to this message.
+        I have read the <Link href="/privacy" className="font-semibold text-teal-700 underline">privacy notice</Link>.
       </CheckboxField>
       {form.status === "error" && (
         <FormStatus status="error" successTitle="" successMessage="" errorMessage={form.message} />

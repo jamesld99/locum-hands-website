@@ -206,7 +206,7 @@ export default function PracticesPage() {
                 </li>
                 <li className="flex items-start gap-3">
                   <CheckIcon className="mt-0.5 h-5 w-5 flex-none text-teal-500" />
-                  Your details are checked and saved so we can reply.
+                  Your details are checked, then emailed to Locum Hands so we can reply.
                 </li>
                 <li className="flex items-start gap-3">
                   <CheckIcon className="mt-0.5 h-5 w-5 flex-none text-teal-500" />

@@ -52,25 +52,17 @@ schema, the header and the footer.
 
 ## Form submissions
 
-Enquiries are validated in the browser and on the server, then saved to
-PostgreSQL. That database row is the receipt. Resend is only the notification
-to `hello@locumhands.co.uk`. Local JSON files and Vercel's temporary disk are
-not a receipt.
+Enquiries are validated in the browser and on the server, then emailed to
+`hello@locumhands.co.uk` through Resend. The inbox message is the enquiry.
+The form does not save a separate database copy. A reference is shown only
+after Resend accepts the send. Repeating the same submission does not send a
+second email once the first one has been accepted.
 
-Copy `.env.example` to `.env.local` and set `DATABASE_URL` to a Postgres
-database. Without `RESEND_API_KEY`, the enquiry is still saved and the
-notification is marked failed so it can be retried. Do not set real secrets in
-the example file.
-
-Authorised staff can inspect and retry notifications with:
-
-```bash
-npm run enquiries:status
-npm run enquiries:retry
-```
-
-`enquiries:status -- --details` prints the submitted fields. Keep that output
-private.
+Copy `.env.example` to `.env.local` and set `RESEND_API_KEY`. Without that
+key, the form reports that the message was not sent and keeps what was typed.
+`EMAIL_DELIVERY=simulate` skips the real send for a local dry run, and is
+ignored when `VERCEL_ENV=production`. Do not set real secrets in the example
+file.
 
 ## Content
 
@@ -82,4 +74,4 @@ private.
 1. Push this repository to GitHub.
 2. Import it into Vercel.
 3. Set the production domain and update `siteConfig.url`.
-4. (Recommended) Configure a datastore for form submissions as noted above.
+4. Set `RESEND_API_KEY`, `ENQUIRY_FROM_EMAIL`, `ENQUIRY_TO_EMAIL` and `RATE_LIMIT_SALT` for Production. Leave `EMAIL_DELIVERY` unset.

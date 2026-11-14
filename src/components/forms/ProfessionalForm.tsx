@@ -61,7 +61,7 @@ export function ProfessionalForm() {
       <FormStatus
         status="success"
         successTitle="Registration received"
-        successMessage={`We have your details. Reference ${form.reference}. We'll be in touch about any documents a placement needs. Nothing has been booked yet. If you need to add something, call ${siteConfig.phoneDisplay} or email ${siteConfig.email} and quote the reference.`}
+        successMessage={`Your registration has been sent. Reference ${form.reference}. We'll be in touch about any documents a placement needs. Nothing has been booked yet. If you need to add something, call ${siteConfig.phoneDisplay} or email ${siteConfig.email} and quote the reference.`}
         onAnother={form.startAnother}
         anotherLabel="Register another person"
       />
@@ -135,12 +135,18 @@ export function ProfessionalForm() {
         placeholder="Preferred days, or anything else we should know. Please don't include medical information."
       />
       <CheckboxField id="consent" error={form.errors.consent} required>
-        I have read the <Link href="/privacy" className="font-semibold text-teal-700 underline">privacy notice</Link> and
-        I am happy for Locum Hands to use these details to respond to this registration.
+        I have read the <Link href="/privacy" className="font-semibold text-teal-700 underline">privacy notice</Link>.
       </CheckboxField>
       {form.status === "error" && (
         <FormStatus status="error" successTitle="" successMessage="" errorMessage={form.message} />
       )}
+      <p className="text-sm text-navy-600">
+        If the form will not send, call{" "}
+        <a className="font-semibold text-teal-700 underline" href={`tel:${siteConfig.phone}`}>{siteConfig.phoneDisplay}</a>{" "}
+        or email{" "}
+        <a className="font-semibold text-teal-700 underline" href={`mailto:${siteConfig.email}`}>{siteConfig.email}</a>.
+        What you have typed stays in the form until it is accepted.
+      </p>
       <button
         type="submit"
         disabled={form.status === "submitting"}

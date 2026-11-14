@@ -83,6 +83,29 @@ describe("content and SEO regressions", () => {
     assert.equal(about.includes("started with a simple idea"), false);
   });
 
+  it("publishes the approved enquiry privacy process and no ICO registration", () => {
+    const privacy = readFileSync(new URL("../app/privacy/page.tsx", import.meta.url), "utf8");
+    const forms = ["ContactForm.tsx", "PracticeForm.tsx", "ProfessionalForm.tsx"]
+      .map((name) => readFileSync(new URL(`../components/forms/${name}`, import.meta.url), "utf8"))
+      .join("\n");
+    const dataAnswer = faqGroups.flatMap((group) => group.faqs).find((faq) => faq.question === "How is my data handled?");
+    assert.ok(dataAnswer);
+    assert.match(privacy, /legitimate interests/);
+    assert.match(privacy, /up to six months/);
+    assert.match(privacy, /Liset Hernandez/);
+    assert.match(privacy, /James Lloyd-Davies/);
+    assert.match(privacy, /inbox message is the enquiry/);
+    assert.equal(privacy.includes("database record"), false);
+    assert.equal(privacy.includes("Still to be confirmed"), false);
+    assert.equal(privacy.includes("ICO"), false);
+    assert.match(dataAnswer.answer, /up to six months/);
+    assert.match(dataAnswer.answer, /inbox message is the enquiry/);
+    assert.equal(dataAnswer.answer.includes("database"), false);
+    assert.equal(dataAnswer.answer.includes("still need to be confirmed"), false);
+    assert.equal(forms.includes("I am happy"), false);
+    assert.match(forms, /I have read the/);
+  });
+
   it("uses Liset's name only on the dental nurse articles", () => {
     const nurse = posts.find((post) => post.slug === "dental-nurse-locum-jobs-uk-guide");
     const explained = posts.find((post) => post.slug === "dental-locum-nursing-explained");

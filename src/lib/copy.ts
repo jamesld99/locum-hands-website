@@ -8,7 +8,7 @@ export const professionalPayWording =
 export const practicePricingWording =
   "The dental practice pays a fixed Locum Hands booking fee once per booked day. The fee is £40 per day for a dental nurse or hygienist and £60 per day for a dentist. This is separate from the locum's agreed rate. We confirm both amounts before you book.";
 
-export const storageFailureMessage = `We couldn't save your enquiry, so it has not been received. Please call ${siteConfig.phoneDisplay} or email ${siteConfig.email}.`;
+export const sendFailureMessage = `We couldn't send that. Your answers are still in the form. Please try again, or call ${siteConfig.phoneDisplay} or email ${siteConfig.email}.`;
 
 export const rateLimitMessage = `Please wait a few minutes before sending that again. You can also call ${siteConfig.phoneDisplay} or email ${siteConfig.email}.`;
 
